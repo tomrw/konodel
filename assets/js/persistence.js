@@ -290,17 +290,6 @@ var Persistance = (function() {
 						});
 
 						$$('.cerabox-content').adopt(ul);
-						
-						loadContent = $$('.cerabox-content')[0];
-						loadContent.addClass('scrollbar');
-
-						scroll = new ScrollBars(loadContent, {
-							scrollBarSize:10,
-							barOverContent:true,
-							fade:false
-						});
-
-						scroll.updateScrollBars();
 					}
 					else {
 						alert('Sorry, there was an error loading your images: ' + data.message);
@@ -338,7 +327,7 @@ var Persistance = (function() {
 			var size = $(window).getSize();
 			var self = this;
 
-			var loadAllWidth = (Math.floor((size.x - 100) / 313) * 313) + 20;
+			var loadAllWidth = (Math.floor((size.x - 100) / 313) * 313) + 40;
 			var loadAllHeight = (Math.floor((size.y - 100) / 110) * 110) + 20;
 
 			if(loadAllWidth < 300) loadAllWidth = 300;

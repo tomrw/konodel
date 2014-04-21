@@ -4,7 +4,6 @@ var LayerManager = (function() {
 	var layerLimit = 10;
 	
 	var draggableLayers;
-	var scroll;
 	var opacitySlider;
 
 	// Canvas dimensions
@@ -44,7 +43,6 @@ var LayerManager = (function() {
 
 			draggableLayers.addItems(layer.get('menu'));
 			this.setActiveLayer(layer);
-			this.update();
 
 			return layer;
 		},
@@ -89,8 +87,6 @@ var LayerManager = (function() {
 			}
 
 			delete layer;
-			this.update();
-
 			UndoManager.getInstance().saveState();
 		},
 
@@ -104,12 +100,6 @@ var LayerManager = (function() {
 			$('layer-delete').addEvent('click', function() {
 				this.removeLayer(this.getActiveLayer());
 			}.bind(this));
-
-			scroll = new ScrollBars('layer-scrollbar', {
-				scrollBarSize:10,
-				barOverContent:true,
-				fade:false
-			});
 
 			draggableLayers = new Sortables('#layers-container', {
 				clone:true,
@@ -153,10 +143,6 @@ var LayerManager = (function() {
 			});
 		},
 
-		update: function() {
-			if(scroll != null) scroll.updateScrollBars();
-		},
-
 		clear: function() {
 			for(var i = 0; i < layers.length; ++i) {
 				layers[i].remove();
@@ -165,7 +151,6 @@ var LayerManager = (function() {
 
 			layers = [];
 			activeLayer = null;
-			this.update();
 		},
 
 		resize: function(w, h) {

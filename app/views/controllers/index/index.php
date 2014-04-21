@@ -7,7 +7,6 @@
 		->register('mootools.js')
 		->register('global.js')
 		->register('p/modernizr.js')
-		->register('p/scrollbars.js')
 		->register('p/more.js')
 		->register('p/moorainbow.js')
 		->register('p/cerabox.js')
@@ -105,14 +104,14 @@
 			<h1>Please upgrade your browser</h1>
 			<p>Sorry, you are using an old or outdated browser. To access the features on this web application please upgrade to a newer version.</p>
 		</div>
-		<div id="tools-info" class="right scrollbar">
+		<div id="tools-info" class="right">
 			<div id="map">
 				<div id="map-selection"></div>
 				<canvas id="map-canvas"></canvas>
 			</div>
 			<div id="layers-panel">
 				<div class="layers-header">Layers</div>
-				<div class="scrollbar" id="layer-scrollbar">
+				<div id="layer-scrollbar">
 					<ul id="layers-container"></ul>
 				</div>
 			</div>
