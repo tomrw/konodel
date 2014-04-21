@@ -1,0 +1,53 @@
+.uploadContainer {
+	height:80px;
+}
+
+.uploadClick, .uploadDrop {
+	padding:20px;
+	margin:10px;
+	text-align:center;
+	width:160px;
+}
+
+.uploadClick {
+	float:left;
+}
+
+.uploadDrop {
+	float:right;
+	width:205px;
+}
+
+.uploadDrop.hover {
+	background: #121a3f;
+}
+
+.uploadMessage {
+	height:30px;
+}
+
+.uploadProgress {
+	margin:15px 10px 0 10px;
+	height:15px;
+	border-radius:3px;
+	background-color:#f7f7f7;
+	background-image:linear-gradient(to bottom, #f5f5f5, #f9f9f9);
+	/*display:none;*/
+}
+
+.uploadProgressBar {
+	background-image:linear-gradient(to bottom, #149bdf, #0480be);
+	background-color:#0e90d2;
+	height:15px;
+	border-radius:3px;
+	width:0px;
+}
+
+.uploadFile {
+	margin-left:10px;
+	visibility:hidden;
+}
+
+.uploadLayer {
+	margin-left:10px;
+}

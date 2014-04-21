@@ -1,0 +1,14 @@
+RewriteEngine on
+#RewriteBase /konodel/
+RewriteBase /
+
+RewriteRule ^config.ini$ - [L,R=404]
+
+RewriteRule ^js/([A-Za-z-\/]+.js(,[A-Za-z-\/]+.js)*) compress.php?type=js&files=$1
+RewriteRule ^css/([A-Za-z-]+.css(,[A-Za-z-]+.css)*) compress.php?type=css&files=$1
+
+RewriteRule ^view/([a-zA-Z0-9]*)$ index.php?controller=view&id=$1
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9]*)([\/]*)([a-zA-Z0-9]*)$ index.php?controller=$1&action=$3&%{QUERY_STRING}
