@@ -26,12 +26,13 @@ define(function() {
 		else {
 			delete this._listeners[event];
 		}
-	}
+	};
 
 	EventBusPrototype.trigger = function(event) {
 		var listeners = this._listeners[event] || [];
+		var args = Array.prototype.slice.call(arguments, 1);
 		for (var i = 0, l = listeners.length; i < l; ++i) {
-			listeners[i].apply(null, arguments);
+			listeners[i].apply(null, args);
 		}
 	};
 
