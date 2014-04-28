@@ -1,20 +1,19 @@
-var ToolFilter = (function() {
+define(['undo', 'tool/tool'], function(UndoManager, Tool) {
 
 	var filterIDS = ['Grayscale', 'Brightness', 'Threshold', 'Blur', 'Sharpen'];
-	// var filterNames = ['Grayscale', 'Brightness', 'Black/White'];
 	var filters = {};
 	var currentFilter;
 	var filterControl;
-	
-	return new Class({
 
+	return new Class ({
 		Extends: Tool,
-
 		initialize: function() {
 			this.parent();
 
 			filterIDS.each(function(filter) {
-				filters['Filter' + filter] = new window['Filter' + filter]();
+				require(['filter/' + filter], function(Filter) {
+					filters['Filter' + filter] = new Filter();
+				});
 			});
 		},
 
@@ -64,7 +63,7 @@ var ToolFilter = (function() {
 		},
 
 		getToolInfo: function() {
-			return currentFilter.getInfo() + 
+			return currentFilter.getInfo() +
 				'<a id="filter-apply" class="btn">Apply</a>';
 		},
 
@@ -113,4 +112,4 @@ var ToolFilter = (function() {
 			return currentFilter.getName();
 		}
 	});
-})();
+});

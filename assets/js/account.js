@@ -1,49 +1,50 @@
-var Account = (function() {
-	
-	return new Class({
+define(['persistence'], function(Persistance) {
 
-		Static: {
-			instance: null,
+	return (function() {
+		var instance;
+
+		return {
 			getInstance: function() {
-				if(this.instance == null) {
-					this.instance = new Account();
+				if (!instance) {
+					instance = true;
+					this.init();
 				}
 
-				return this.instance;
+				return this;
+			},
+
+			init: function() {
+
+				$$('#btnLogin').cerabox({
+					width:400,
+					height:145,
+					displayTitle:false,
+					events: {
+						onOpen: function() {
+							$$('.cerabox-content input[name=username]')[0].focus();
+
+							$$('.cerabox-content form')[0].addEvent('submit', function(e) {
+								Persistance.getInstance().ignoreUnload = true;
+							});
+						}
+					}
+				});
+
+				$$('#btnRegister').cerabox({
+					width:400,
+					height:160,
+					displayTitle:false,
+					events: {
+						onOpen: function() {
+							$$('.cerabox-content input[name=username]')[0].focus();
+
+							$$('.cerabox-content form')[0].addEvent('submit', function(e) {
+								Persistance.getInstance().ignoreUnload = true;
+							});
+						}
+					}
+				});
 			}
-		},
-
-		init: function() {
-			
-			$$('#btnLogin').cerabox({
-				width:400,
-				height:145,
-				displayTitle:false,
-				events: {
-					onOpen: function() {
-						$$('.cerabox-content input[name=username]')[0].focus();
-
-						$$('.cerabox-content form')[0].addEvent('submit', function(e) {
-							Persistance.getInstance().ignoreUnload = true;
-						});
-					}
-				}
-			});
-
-			$$('#btnRegister').cerabox({
-				width:400,
-				height:160,
-				displayTitle:false,
-				events: {
-					onOpen: function() {
-						$$('.cerabox-content input[name=username]')[0].focus();
-
-						$$('.cerabox-content form')[0].addEvent('submit', function(e) {
-							Persistance.getInstance().ignoreUnload = true;
-						});
-					}
-				}
-			});
 		}
-	});
-})();
+	})();
+});

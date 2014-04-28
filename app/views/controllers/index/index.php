@@ -3,30 +3,14 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Konodel / Image Editor</title>
-	<?= $this->helper('javascript')
-		->register('mootools.js')
-		->register('global.js')
-		->register('p/modernizr.js')
-		->register('p/more.js')
-		->register('p/moorainbow.js')
-		->register('p/cerabox.js')
-		->register('p/uvumicrop.js')
-		->register('p/upload.js')
-		->register('init.js')
-		->register('layout.js')
-		->register('layer.js')
-		->register('undo.js')
-		->register('tools.js')
-		->register('pointer.js')
-		->register('map.js')
-		->register('persistence.js')
-		->register('account.js')
-		->register('keyboard.js')
-		->register('tool/basic.js')
-		->register('tool/canvas.js')
-		->register('tool/filter.js')
-		->register('filter/basic.js')
-		->register('filter/advanced.js') ?>
+	<script type="text/javascript" src="lib/modernizr.js"></script>
+	<script type="text/javascript" src="lib/mootools.js"></script>
+	<script type="text/javascript" src="assets/js/global.js"></script>
+	<script type="text/javascript" src="lib/more.js"></script>
+	<script type="text/javascript" src="lib/cerabox.js"></script>
+	<script type="text/javascript" src="lib/moorainbow.js"></script>
+	<script type="text/javascript" src="lib/uvumicrop.js"></script>
+	<script type="text/javascript" src="lib/require.js" data-main="assets/js/init"></script>
 	<?= $this->helper('css')
 		->register('index.css')
 		->register('cerabox.css')

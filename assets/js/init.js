@@ -1,4 +1,6 @@
-window.addEvent('domready', function() {
+define(['layout', 'layer-manager', 'undo', 'tools', 'pointer', 'persistence', 'map', 'account', 'keyboard'],
+	function(Layout, LayerManager, UndoManager, Toolbar, MousePointer, Persistance, Map, Account, KeyboardManager) {
+
 	setTimeout(function() {
 
 		if(!Modernizr.canvas) {
@@ -6,7 +8,7 @@ window.addEvent('domready', function() {
 			return;
 		}
 
-		loadLayout();
+		Layout.loadLayout();
 		initGlobal();
 
 		var layerManager = LayerManager.getInstance();
@@ -16,17 +18,15 @@ window.addEvent('domready', function() {
 		undoManager.saveState();
 
 		var toolbar = Toolbar.getInstance();
-		toolbar.setTool('ToolPaint');
-		
+		setTimeout(function() {
+			toolbar.setTool('ToolPaint');
+		}, 1000);
+
 		MousePointer.getInstance().init();
 		Persistance.getInstance().init();
 		Map.getInstance().init();
 		Account.getInstance().init();
 		KeyboardManager.getInstance().init();
-
-		// $('btnRegister').fireEvent('click');
-		// resizeLayout(20, 20);
-		// resizeCanvas(20, 20);
 
 	}, 200);
 });
