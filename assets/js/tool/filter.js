@@ -1,4 +1,4 @@
-define(['undo', 'tool/tool'], function(UndoManager, Tool) {
+define(['events', 'tool/tool'], function(Events, Tool) {
 
 	var filterIDS = ['Grayscale', 'Brightness', 'Threshold', 'Blur', 'Sharpen'];
 	var filters = {};
@@ -94,7 +94,7 @@ define(['undo', 'tool/tool'], function(UndoManager, Tool) {
 			currentFilter.run();
 			$('filter-apply').disabled = false;
 
-			UndoManager.getInstance().saveState();
+			Events.trigger(Events.SAVE_STATE);
 		},
 
 		removeToolInfo: function() {

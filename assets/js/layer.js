@@ -1,4 +1,4 @@
-define(function() {
+define(['events'], function(Events) {
 	var data = {};
 	var LayerManager;
 
@@ -151,7 +151,7 @@ define(function() {
 				rename.removeEvent('keydown', this.renameEventRef);
 				rename.destroy();
 
-				UndoManager.getInstance().saveState();
+				Events.trigger(Events.SAVE_STATE);
 			}
 		}
 	});

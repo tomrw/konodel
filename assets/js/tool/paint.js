@@ -1,4 +1,5 @@
-define(['layer-manager', 'pointer', 'undo', 'tool/tool'], function(LayerManager, MousePointer, UndoManager, Tool) {
+define(['events', 'layer-manager', 'pointer', 'tool/tool'],
+	function(Events, LayerManager, MousePointer, Tool) {
 
 	return new Class ({
 
@@ -180,7 +181,7 @@ define(['layer-manager', 'pointer', 'undo', 'tool/tool'], function(LayerManager,
 			}
 
 			if(this.undo) {
-				UndoManager.getInstance().saveState();
+				Events.trigger(Events.SAVE_STATE);
 			}
 		},
 

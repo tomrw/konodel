@@ -1,4 +1,5 @@
-define(['layer-manager', 'undo', 'tool/tool'], function(LayerManager, UndoManager, Tool) {
+define(['events', 'layer-manager', 'tool/tool'],
+	function(Events, LayerManager, Tool) {
 
 	return new Class({
 
@@ -143,7 +144,7 @@ define(['layer-manager', 'undo', 'tool/tool'], function(LayerManager, UndoManage
 			this.context.putImageData(data, 0, 0);
 			this.working = false;
 
-			UndoManager.getInstance().saveState();
+			Events.trigger(Events.SAVE_STATE);
 		},
 
 		matches: function(data, index, r, g, b) {

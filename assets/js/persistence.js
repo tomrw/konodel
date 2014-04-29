@@ -1,4 +1,5 @@
-define(['layout', 'layer-manager', 'undo', 'tools', 'upload'], function(Layout, LayerManager, UndoManager, Toolbar, Upload) {
+define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
+	function(Events, Layout, LayerManager, UndoManager, Toolbar, Upload) {
 
 	var lightboxLoad, lightboxSave, lightboxUpload, uploadRef;
 	var currentImage = {};
@@ -172,7 +173,7 @@ define(['layout', 'layer-manager', 'undo', 'tools', 'upload'], function(Layout, 
 
 							clearInterval(timer);
 
-							UndoManager.getInstance().saveState();
+							Events.trigger(Events.SAVE_STATE);
 						}, 500);
 					}.bind(this)
 				});
@@ -467,12 +468,12 @@ define(['layout', 'layer-manager', 'undo', 'tools', 'upload'], function(Layout, 
 							var layer = layerManager.addLayer('Layer 1');
 
 							UndoManager.getInstance().clear();
-							UndoManager.getInstance().saveState();
+							Events.trigger(Events.SAVE_STATE);
 							self.getInstance().setCurrentImage(0, '', '', false);
 						}
 
 						layer.get('canvas').getContext('2d').drawImage(img, 0, 0, size.width, size.height);
-						UndoManager.getInstance().saveState();
+						Events.trigger(Events.SAVE_STATE);
 
 						CeraBoxWindow.hideLoader();
 						CeraBoxWindow.close(true);

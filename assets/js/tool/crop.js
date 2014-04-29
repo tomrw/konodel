@@ -1,5 +1,5 @@
-define(['layout', 'layer-manager', 'pointer', 'undo', 'tool/tool'],
-	function(Layout, LayerManager, MousePointer, UndoManager, Tool) {
+define(['events', 'layout', 'layer-manager', 'pointer', 'tool/tool'],
+	function(Events, Layout, LayerManager, MousePointer, Tool) {
 
 	return new Class({
 
@@ -137,7 +137,7 @@ define(['layout', 'layer-manager', 'pointer', 'undo', 'tool/tool'],
 				Layout.resizeLayout(this.width, this.height);
 				this.crop.setSize(Math.max(this.width / 4 * 3, 10), Math.max(this.height / 4 * 3, 10));
 
-				UndoManager.getInstance().saveState();
+				Events.trigger(Events.SAVE_STATE);
 
 			}.bind(this));
 		}

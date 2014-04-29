@@ -43,10 +43,6 @@ define(['undo'], function(UndoManager) {
 					else if(e.code == 77) {
 						$('btnUpload').fireEvent('click');
 					}
-
-					// e.preventDefault();
-					// e.stop();
-					// return false;
 				});
 			}
 		}

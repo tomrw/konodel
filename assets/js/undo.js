@@ -1,4 +1,5 @@
-define(['layer-manager', 'layout', 'tools'], function(LayerManager, Layout, Toolbar) {
+define(['events', 'layer-manager', 'layout', 'tools'],
+	function(Events, LayerManager, Layout, Toolbar) {
 
 	var queue = [];
 	var index = 0;
@@ -36,6 +37,8 @@ define(['layer-manager', 'layout', 'tools'], function(LayerManager, Layout, Tool
 				}.bind(this));
 
 				this.layer = LayerManager.getInstance();
+
+				Events.on(Events.SAVE_STATE, this.saveState.bind(this));
 			},
 
 			saveState: function(callback) {
@@ -99,7 +102,6 @@ define(['layer-manager', 'layout', 'tools'], function(LayerManager, Layout, Tool
 			},
 
 			undo: function() {
-
 				if(!index) return;
 
 				if(queue[index] == undefined && index > 1) {

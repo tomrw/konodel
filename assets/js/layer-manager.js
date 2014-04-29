@@ -1,4 +1,4 @@
-define(['layer', 'tools'], function(Layer, Toolbar) {
+define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 	var layers = [];
 	var activeLayer;
 	var layerLimit = 10;
@@ -9,12 +9,6 @@ define(['layer', 'tools'], function(Layer, Toolbar) {
 	// Canvas dimensions
 	var height;
 	var width;
-
-	var UndoManager;
-
-	require(['undo'], function(undo) {
-		UndoManager = undo;
-	});
 
 	return (function() {
 		var instance;
@@ -92,13 +86,13 @@ define(['layer', 'tools'], function(Layer, Toolbar) {
 				}
 
 				delete layer;
-				UndoManager.getInstance().saveState();
+				Events.trigger(Events.SAVE_STATE);
 			},
 
 			init: function() {
 				$('layer-new').addEvent('click', function() {
 					var layer = this.addLayer('Layer ' + (layers.length + 1));
-					UndoManager.getInstance().saveState();
+					Events.trigger(Events.SAVE_STATE);
 				}.bind(this));
 
 				$('layer-delete').addEvent('click', function() {

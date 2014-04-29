@@ -1,5 +1,5 @@
-define(['layout', 'layer-manager', 'map', 'undo', 'tool/tool'],
-	function(Layout, LayerManager, Map, UndoManager, Tool) {
+define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
+	function(Events, Layout, LayerManager, Map, Tool) {
 
 	var rotate;
 	var currentAngle = 0;
@@ -102,7 +102,7 @@ define(['layout', 'layer-manager', 'map', 'undo', 'tool/tool'],
 			Layout.resizeLayout(height, width);
 			Map.getInstance().resize();
 
-			UndoManager.getInstance().saveState();
+			Events.trigger(Events.SAVE_STATE);
 		},
 
 		flip: function(vertical) {
@@ -137,7 +137,7 @@ define(['layout', 'layer-manager', 'map', 'undo', 'tool/tool'],
 			});
 
 			Map.getInstance().draw();
-			UndoManager.getInstance().saveState();
+			Events.trigger(Events.SAVE_STATE);
 		}
 	});
 });

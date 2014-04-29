@@ -1,5 +1,5 @@
-define(['layer-manager', 'pointer', 'undo', 'tool/tool'],
-	function(LayerManager, MousePointer, UndoManager, Tool) {
+define(['events', 'layer-manager', 'pointer', 'tool/tool'],
+	function(Events, LayerManager, MousePointer, Tool) {
 
 	return new Class({
 
@@ -96,7 +96,7 @@ define(['layer-manager', 'pointer', 'undo', 'tool/tool'],
 					this.fixClear();
 					this.tmpCanvas.setStyle('display', 'none');
 
-					UndoManager.getInstance().saveState();
+					Events.trigger(Events.SAVE_STATE);
 
 				}.bind(this)
 			});
@@ -286,7 +286,7 @@ define(['layer-manager', 'pointer', 'undo', 'tool/tool'],
 
 				this.fixClear();
 
-				UndoManager.getInstance().saveState();
+				Events.trigger(Events.SAVE_STATE);
 
 				this.view.setStyle('display', 'none');
 				this.startX = this.startY = this.endX = this.endY = 0;

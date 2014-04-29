@@ -1,4 +1,5 @@
-define(['layout', 'layer-manager', 'undo', 'tool/tool'], function(Layout, LayerManager, UndoManager, Tool) {
+define(['events', 'layout', 'layer-manager', 'tool/tool'],
+	function(Events, Layout, LayerManager, Tool) {
 
 	return new Class({
 
@@ -99,7 +100,7 @@ define(['layout', 'layer-manager', 'undo', 'tool/tool'], function(Layout, LayerM
 
 					var interval = setInterval(function() {
 						if(loaded) {
-							UndoManager.getInstance().saveState();
+							Events.trigger(Events.SAVE_STATE);
 							clearInterval(interval);
 						}	
 					}, 100);
