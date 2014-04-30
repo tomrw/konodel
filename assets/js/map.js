@@ -7,7 +7,6 @@ define(['layer-manager'], function(LayerManager) {
 			getInstance: function() {
 				if (!instance) {
 					instance = true;
-					this.init();
 				}
 
 				return this;

@@ -39,6 +39,9 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 				this.layer = LayerManager.getInstance();
 
 				Events.on(Events.SAVE_STATE, this.saveState.bind(this));
+				Events.on(Events.UNDO, this.undo.bind(this));
+				Events.on(Events.REDO, this.redo.bind(this));
+				Events.on(Events.RESET_UNDO, this.reset.bind(this));
 			},
 
 			saveState: function(callback) {
@@ -128,7 +131,7 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 				return queue;
 			},
 
-			clear: function() {
+			reset: function() {
 				index = 0;
 				queue = [];
 			},

@@ -10,7 +10,6 @@ define(function() {
 			getInstance: function() {
 				if (!instance) {
 					instance = true;
-					this.init();
 				}
 
 				return this;

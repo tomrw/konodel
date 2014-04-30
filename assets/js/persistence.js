@@ -15,7 +15,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 				if (!instance) {
 					instance = true;
 					self = this;
-					this.init();
 				}
 
 				return this;
@@ -46,10 +45,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 
 				if(saveData.publish) {
 					saveData.display = layerManager.flatten(800, 800);
-
-					/*if(layerManager.width > 800 || layerManager.height > 800) {
-						saveData.fullsize = layerManager.flatten(layerManager.width, layerManager.height);
-					}*/
 				}
 
 				$$('#layers-container li').reverse().each(function(el, order) {
@@ -305,6 +300,8 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 				var size = $(window).getSize();
 				var self = this;
 
+				Events.on(Events.IGNORE_UNLOAD, this.onIgnoreUnload.bind(this));
+
 				var loadAllWidth = (Math.floor((size.x - 100) / 313) * 313) + 40;
 				var loadAllHeight = (Math.floor((size.y - 100) / 110) * 110) + 20;
 
@@ -403,10 +400,9 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 
 					if(open) {
 						var manager = LayerManager.getInstance();
-						var undo = UndoManager.getInstance();
 
 						manager.clear();
-						undo.clear();
+						Events.trigger(Events.RESET_UNDO);
 
 						this.setCurrentImage(0, '', '', false);
 
@@ -414,10 +410,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 
 						manager.addLayer('Layer 1');
 						Toolbar.getInstance().refreshTool();
-
-						$('file-list').setStyle('display', 'none');
-
-						undo.saveState();
+						Events.trigger(Events.SAVE_STATE);
 					}
 				}.bind(this));
 
@@ -467,7 +460,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 							resizeLayout(size.width, size.height);
 							var layer = layerManager.addLayer('Layer 1');
 
-							UndoManager.getInstance().clear();
+							Events.trigger(Events.RESET_UNDO);
 							Events.trigger(Events.SAVE_STATE);
 							self.getInstance().setCurrentImage(0, '', '', false);
 						}
@@ -545,6 +538,10 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 
 			getCurrentImage: function() {
 				return currentImage;
+			},
+
+			onIgnoreUnload: function(ignoreUnload) {
+				this.ignoreUnload = ignoreUnload;
 			}
 		}
 	})();

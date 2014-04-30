@@ -1,4 +1,4 @@
-define(['undo'], function(UndoManager) {
+define(['events'], function(Events) {
 
 	return (function() {
 		var instance;
@@ -7,23 +7,21 @@ define(['undo'], function(UndoManager) {
 			getInstance: function() {
 				if (!instance) {
 					instance = true;
-					this.init();
 				}
 
 				return this;
 			},
 
 			init: function() {
-
 				$(document).addEvent('keydown', function(e) {
 					if(!e.control) return;
 
 					if(e.code == 90) {
-						UndoManager.getInstance().undo();
+						Events.trigger(Events.UNDO);
 						e.stop();
 					}
 					else if(e.code == 89) {
-						UndoManager.getInstance().redo();
+						Events.trigger(Events.REDO);
 						e.stop();
 					}
 					else if(e.code == 79) {

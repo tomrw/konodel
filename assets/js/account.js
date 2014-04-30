@@ -1,4 +1,4 @@
-define(['persistence'], function(Persistance) {
+define(['events'], function(Events) {
 
 	return (function() {
 		var instance;
@@ -7,14 +7,12 @@ define(['persistence'], function(Persistance) {
 			getInstance: function() {
 				if (!instance) {
 					instance = true;
-					this.init();
 				}
 
 				return this;
 			},
 
 			init: function() {
-
 				$$('#btnLogin').cerabox({
 					width:400,
 					height:145,
@@ -24,7 +22,7 @@ define(['persistence'], function(Persistance) {
 							$$('.cerabox-content input[name=username]')[0].focus();
 
 							$$('.cerabox-content form')[0].addEvent('submit', function(e) {
-								Persistance.getInstance().ignoreUnload = true;
+								Events.trigger(Events.IGNORE_UNLOAD, true);
 							});
 						}
 					}
@@ -39,7 +37,7 @@ define(['persistence'], function(Persistance) {
 							$$('.cerabox-content input[name=username]')[0].focus();
 
 							$$('.cerabox-content form')[0].addEvent('submit', function(e) {
-								Persistance.getInstance().ignoreUnload = true;
+								Events.trigger(Events.IGNORE_UNLOAD, true);
 							});
 						}
 					}
