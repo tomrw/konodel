@@ -28,7 +28,6 @@ ul {
 	font-weight:bold;
 	text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
 	cursor:pointer;
-	/*margin-right:2px;*/
 	font-size:13px;
 	display:block;
 	float:left;
@@ -67,12 +66,10 @@ a:link {
 	float:left;
 	height:100%;
 	position:relative;
-	/*color:#999999;*/
 	font-size:14px;
 }
 
 #menu a {
-	/*display:block;*/
 	color:#999999;
 }
 
@@ -112,7 +109,6 @@ a:link {
 	display:none;
 	position:absolute;
 	top:39px;
-	/*margin-top:5px !important;*/
 	z-index:999;
 	min-width:100px;
 	margin-top:1px;
@@ -122,7 +118,6 @@ a:link {
 }
 
 #menu ul > li > ul > li {
-	/*background-color:grey;*/
 	width:100%;
 	height:26px;
 }
@@ -206,20 +201,16 @@ h3 {
 }
 
 #tools ul li ul li:hover:not(.active) {
-	/*background-color:orange;*/
 	color:#005580;
 }
 
 #canvas-container {
-	/*background-color:rgb(135, 189, 135);*/
 	border:1px solid #ccc;
 	margin-left:10px;
 	overflow:hidden !important;
 	position:relative;
 	cursor: none;
 	float:left;
-	/*z-index:99;*/
-	/*cursor:url('../images/pointer.png'), default;*/
 }
 
 .canvas {
@@ -245,7 +236,6 @@ h3 {
 }
 
 #layers-panel li {
-	/*background-color:#eeeeee;*/
 	color:#0088cc;
 }
 
@@ -343,12 +333,6 @@ h3 {
 	width: 100%;
 }
 
-#tool-options {
-	/*margin-top:5px;*/
-	/*padding-top:5px;*/
-	/*border-top:1px solid #ccc;*/
-}
-
 #tool-options-content {
 	font-size:12px;
 }
@@ -362,11 +346,6 @@ h3 {
 #tool-options-name {
 
 }
-
-/*#brush-size {
-	width:190px;
-	margin-left:5px;
-}*/
 
 .hidden {
 	display: none;
@@ -489,10 +468,6 @@ h3 {
 	background-color:#eeeeee;
 }
 
-/*#user-images li div.left div {
-	float:left;
-}*/
-
 .load-preview {
 	width:104px;
 	height:104px;
@@ -565,10 +540,6 @@ h3 {
 }
 
 /* Save */
-/*.saveMessage {
-
-}*/
-
 .save-content {
 	border-bottom:1px solid #eee;
 	margin-bottom:5px;
@@ -587,23 +558,10 @@ h3 {
 	margin-right:10px;
 }
 
-/* Generic Message */
-/*.message {
-	background-color:#ccc;
-	margin:10px;
-	line-height:2em;
-	padding:0 5px 0 5px;
-}*/
-
 /* Cerabox Generic Form */
 .cerabox-content label {
 	margin-left:10px;
 }
-
-/*.cerabox-content input[type="text"], .cerabox-content input[type="password"] {
-	width:410px;
-	margin-left:10px;
-}*/
 
 /* Select Tool */
 #selectArea {
@@ -613,16 +571,11 @@ h3 {
 	border:1px dashed #000;
 	display:none;
 	cursor:move;
-	/*background-color:#fff;*/
 	z-index:1000;
 	background-color:rgba(255,255,255,0);
 }
 
 /* Filters */
-#filters-list {
-	/* */
-}
-
 #filters-list li.active {
 	background-color:red;
 }
