@@ -1,8 +1,7 @@
-define(['events', 'layer-manager', 'pointer', 'tool/tool'],
-	function(Events, LayerManager, MousePointer, Tool) {
+define(['events', 'layer-manager', 'tool/tool'],
+	function(Events, LayerManager, Tool) {
 
 	return new Class({
-
 		Extends: Tool,
 
 		startX:0,
@@ -108,7 +107,7 @@ define(['events', 'layer-manager', 'pointer', 'tool/tool'],
 		activate: function() {
 
 			$('canvas-container').setStyle('cursor', 'default');
-			MousePointer.getInstance().hide();
+			Events.trigger(Events.HIDE_MOUSE_POINTER);
 
 			this.parent();
 
@@ -194,7 +193,7 @@ define(['events', 'layer-manager', 'pointer', 'tool/tool'],
 
 		mousemove: function(e) {
 
-			MousePointer.getInstance().hide();
+			Events.trigger(Events.HIDE_MOUSE_POINTER);
 
 			if(!this.clicked) return;
 

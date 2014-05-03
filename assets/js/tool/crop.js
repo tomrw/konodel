@@ -1,5 +1,5 @@
-define(['events', 'layout', 'layer-manager', 'pointer', 'tool/tool'],
-	function(Events, Layout, LayerManager, MousePointer, Tool) {
+define(['events', 'layout', 'layer-manager', 'tool/tool'],
+	function(Events, Layout, LayerManager, Tool) {
 
 	return new Class({
 
@@ -35,7 +35,7 @@ define(['events', 'layout', 'layer-manager', 'pointer', 'tool/tool'],
 
 		activate: function() {
 			$('canvas-container').setStyle('cursor', 'default');
-			MousePointer.getInstance().hide();
+			Events.trigger(Events.HIDE_MOUSE_POINTER);
 
 			this.crop.resize();
 			this.crop.autoSize();
@@ -73,7 +73,7 @@ define(['events', 'layout', 'layer-manager', 'pointer', 'tool/tool'],
 		},
 
 		mousemove: function(e) {
-			MousePointer.getInstance().hide();
+			Events.trigger(Events.HIDE_MOUSE_POINTER);
 		},
 
 		crop: function(top, left, width, height) {

@@ -1,4 +1,4 @@
-define(function() {
+define(['events'], function(Events) {
 
 	var width = 10;
 	var outline = false;
@@ -17,6 +17,10 @@ define(function() {
 
 			init: function() {
 				$('mouse-outline').set('opacity', 0.5);
+				Events.on(Events.HIDE_MOUSE_POINTER, this.hide);
+				Events.on(Events.HIDE_MOUSE_OUTLINE, this.hideOutline);
+				Events.on(Events.SHOW_MOUSE_OUTLINE, this.showOutline);
+				Events.on(Events.SET_MOUSE_OUTLINE_WIDTH, this.setOutlineWidth);
 			},
 
 			draw: function(e) {
@@ -32,7 +36,6 @@ define(function() {
 				});
 
 				if(outline) {
-
 					var sizeX = $('mouse-outline').getSize().x;
 
 					$('mouse-outline').setStyles({
@@ -46,7 +49,6 @@ define(function() {
 
 			hide: function() {
 				$('mouse-pointer').setStyle('display', 'none');
-				// hidden = true;
 			},
 
 			showOutline: function() {
@@ -64,7 +66,6 @@ define(function() {
 			},
 
 			setImage: function(img) {
-				//
 			}
 		}
 	})();

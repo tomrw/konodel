@@ -1,4 +1,4 @@
-define(['pointer'], function(MousePointer) {
+define(['events', 'pointer'], function(Events, MousePointer) {
 
 	var tools = {};
 	var activeTool = '';
@@ -49,8 +49,8 @@ define(['pointer'], function(MousePointer) {
 
 						$('canvas-container').removeEvent('mousemove', tools[activeTool].mousemove);
 
-						MousePointer.getInstance().hide();
-						MousePointer.getInstance().hideOutline();
+						Events.trigger(Events.HIDE_MOUSE_POINTER);
+						Events.trigger(Events.HIDE_MOUSE_OUTLINE);
 
 						$(activeTool).removeClass('active');
 						$$(container + ' li.hasParent').removeClass('active')
@@ -90,7 +90,7 @@ define(['pointer'], function(MousePointer) {
 							tools[tool].mousemove(e);
 						},
 						mouseleave: function() {
-							MousePointer.getInstance().hide();
+							Events.trigger(Events.HIDE_MOUSE_POINTER);
 							tools[tool].mouseleave();
 						}
 					});

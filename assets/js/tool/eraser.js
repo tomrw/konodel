@@ -1,5 +1,5 @@
-define(['events', 'layer-manager', 'pointer', 'tool/tool'],
-	function(Events, LayerManager, MousePointer, Tool) {
+define(['events', 'layer-manager', 'tool/tool'],
+	function(Events, LayerManager, Tool) {
 
 	return new Class({
 
@@ -16,9 +16,8 @@ define(['events', 'layer-manager', 'pointer', 'tool/tool'],
 		brushWidth:10,
 
 		activate: function() {
-
-			MousePointer.getInstance().showOutline();
-			MousePointer.getInstance().setOutlineWidth(this.brushWidth);
+			Events.trigger(Events.SHOW_MOUSE_OUTLINE);
+			Events.trigger(Events.SET_MOUSE_OUTLINE_WIDTH, this.brushWidth);
 
 			$('canvas-container').addEvents({
 				mousedown: function(e) {
@@ -135,11 +134,11 @@ define(['events', 'layer-manager', 'pointer', 'tool/tool'],
 					this.brushWidth = step;
 
 					if(step > 10) {
-						MousePointer.getInstance().setOutlineWidth(step);
-						MousePointer.getInstance().showOutline();
+						Events.trigger(Events.SET_MOUSE_OUTLINE_WIDTH, step);
+						Events.trigger(Events.SHOW_MOUSE_OUTLINE);
 					}
 					else {
-						MousePointer.getInstance().hideOutline();
+						Events.trigger(Events.HIDE_MOUSE_OUTLINE);
 					}
 
 				}.bind(this)

@@ -9,5 +9,10 @@ define(['events/event-bus'], function(EventBus) {
 
 	Events.IGNORE_UNLOAD = 'ignoreUnload';
 
+	Events.HIDE_MOUSE_POINTER = 'hideMousePointer';
+	Events.HIDE_MOUSE_OUTLINE = 'hideMouseOutline';
+	Events.SHOW_MOUSE_OUTLINE = 'showMouseOutline';
+	Events.SET_MOUSE_OUTLINE_WIDTH = 'setMouseOutlineWidth';
+
 	return Events;
 });
