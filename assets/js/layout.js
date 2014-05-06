@@ -2,129 +2,111 @@ define(['layer-manager', 'map'], function(LayerManager, Map) {
 
 	function loadLayout() {
 		initLayout();
-
-		$(window).addEvent('resize', function() {
-			resizeLayout();
-		});
+		$(window).addEvent('resize', alignLayout);
 	}
 
 	var MAX_WIDTH = 1000;
 	var MAX_HEIGHT = 1000;
 
 	function initLayout() {
+		var layerManager = LayerManager.getInstance();
+		var wrapper = document.getElementById('canvas-wrapper');
+		var canvasContainer = document.getElementById('canvas-container');
+		var offset = 2;
+		var width = getMinLength(MAX_WIDTH, wrapper.offsetWidth) - offset;
+		var height = getMinLength(MAX_HEIGHT, wrapper.offsetHeight) - offset;
 
-		var windowSize = $(window).getSize();
+		canvasContainer.style.width = width + 'px';
+		canvasContainer.style.height = height + 'px';
+		canvasContainer.style.display = 'block';
+		canvasContainer.style['margin-top'] = -canvasContainer.offsetHeight / 2 + 'px';
+		canvasContainer.style['margin-left'] = -canvasContainer.offsetWidth / 2 + 'px';
 
-		var tool = $('tools').getPosition().x + $('tools').getSize().x;
-		var info = $('tools-info').getPosition().x;
-		var maxWidth = info - tool - 22;
-		var maxHeight = windowSize.y - $('editor-content').getPosition().y - 10;
-
-		var width = maxWidth;
-		var height = maxHeight;
-
-		if(MAX_WIDTH != 0 && width > MAX_WIDTH) width = MAX_WIDTH;
-		if(MAX_HEIGHT != 0 && height > MAX_HEIGHT) height = MAX_HEIGHT;
-
-		var marginX = (maxWidth - width) / 2;
-		var marginY = (maxHeight - height) / 2;
-
-		LayerManager.getInstance().width = width;
-		LayerManager.getInstance().height = height;
-
-		$('canvas-container').setStyles({
-			width: width,
-			height: height,
-			"margin-top":marginY < 0 ? 0 : marginY,
-			"margin-left":marginX < 10 ? 10 : marginX
-		});
+		layerManager.width = width;
+		layerManager.height = height;
 	}
 
-	function resizeLayout(w, h) {
+	function resizeLayout(newWidth, newHeight) {
+		newWidth = getMinLength(MAX_WIDTH, newWidth);
+		newHeight = getMinLength(MAX_HEIGHT, newHeight);
 
-		var tool = $('tools').getPosition().x + $('tools').getSize().x;
-		var info = $('tools-info').getPosition().x;
-		var maxWidth = parseInt(info - tool - 22);
-		var maxHeight = parseInt($(window).getSize().y - $('editor-content').getPosition().y - 10);
-		var manager = LayerManager.getInstance();
-		var width, height;
+		var canvasContainer = document.getElementById('canvas-container');
+		var layerManager = LayerManager.getInstance();
 
-		// If a width/height are given, use them
-		if(w != undefined && h != undefined) {
+		layerManager.width = newWidth;
+		layerManager.height = newHeight;
 
-			width = parseInt(w);
-			height = parseInt(h);
+		canvasContainer.style.width = newWidth + 'px';
+		canvasContainer.style.height = newHeight + 'px';
 
-			if(MAX_WIDTH != 0 && width > MAX_WIDTH) width = MAX_WIDTH;
-			if(MAX_HEIGHT != 0 && height > MAX_HEIGHT) height = MAX_HEIGHT;
+		alignLayout();
+	}
 
-			manager.width = width;
-			manager.height = height;
+	function alignLayout() {
+		var layerManager = LayerManager.getInstance();
+		var wrapper = document.getElementById('canvas-wrapper');
+		var heightAvailable = wrapper.offsetHeight;
+		var widthAvailable = wrapper.offsetWidth;
+		var canvasContainer = document.getElementById('canvas-container');
+		var currentHeight = layerManager.height;
+		var currentWidth = layerManager.width;
+		var showMap = false;
+		var styles = {};
 
-			if(width > maxWidth) width = maxWidth;
-			if(height > maxHeight) height = maxHeight;
+		if (currentWidth < widthAvailable) {
+			styles.left = '50%';
+			styles['margin-left'] = -(layerManager.width) / 2;
+			styles.width = layerManager.width -2;
 		}
 		else {
-
-			// Otherwise, use the manager width
-
-			width = Math.min(maxWidth, manager.width);
-			height = Math.min(maxHeight, manager.height);
-
-			if(MAX_WIDTH != 0 && width > MAX_WIDTH) width = MAX_WIDTH;
-			if(MAX_HEIGHT != 0 && height > MAX_HEIGHT) height = MAX_HEIGHT;
+			styles.left = 0;
+			styles['margin-left'] = '0px';
+			styles.width = widthAvailable - 4;
+			showMap = true;
 		}
 
-		var marginX = (maxWidth - width) / 2;
-		var marginY = (maxHeight - height) / 2;
+		if (currentHeight < heightAvailable) {
+			styles.top = '50%';
+			styles['margin-top'] = -(layerManager.height) / 2;
+			styles.height = layerManager.height - 2;
+		}
+		else {
+			styles.top = 0;
+			styles['margin-top'] = '0px';
+			styles.height = heightAvailable - 4;
+			showMap = true;
+		}
 
-		$('canvas-container').setStyles({
-			"width":width,
-			"height":height,
-			"margin-top":marginY < 0 ? 0 : marginY,
-			"margin-left":marginX < 10 ? 10 : marginX
-		});
-
+		$(canvasContainer).setStyles(styles);
 		$$('#canvas-container canvas').setStyles({
-			top:0,
-			left:0
+			top: 0,
+			left: 0
 		});
 
-		setTimeout(function() {
-			if(width < manager.width || height < manager.height) {
-				Map.getInstance().resize();
-				Map.getInstance().show();
-			}
-			else {
-				Map.getInstance().hide();
-			}
-		}, 200);
+		toggleMap(showMap);
 	}
 
 	function resizeCanvas(width, height) {
-
 		var ref, w, h;
 
 		$$('#layers-container li').each(function(el) {
 			ref = el.retrieve('ref');
 
-			w = ref.get('width');
-			h = ref.get('height');
+			w = ref.width;
+			h = ref.height;
 
-			var canvas = ref.get('canvas');
-
+			var canvas = ref.canvas;
 			var img = new Image();
 			img.src = canvas.toDataURL();
 
 			canvas.width = width;
-			ref.set('width', width);
-
 			canvas.height = height;
-			ref.set('height', height);
+			ref.width = width;
+			ref.height = height;
 
 			canvas.setStyles({
-				top:0,
-				left:0
+				top: 0,
+				left: 0
 			});
 
 			img.onload = function() {
@@ -132,8 +114,25 @@ define(['layer-manager', 'map'], function(LayerManager, Map) {
 				context.fillStyle = "rgba(255,255,255,0.01)";
 				context.fillRect(0, 0, canvas.width, canvas.height);
 				context.drawImage(img, 0, 0);
-			}
+			};
 		});
+	}
+
+	function toggleMap(showMap) {
+		if (showMap) {
+			Map.getInstance().resize();
+			Map.getInstance().show();
+		}
+		else {
+			Map.getInstance().hide();
+		}
+	}
+
+	function getMinLength(max, value) {
+		if (max) {
+			return Math.min(max, value);
+		}
+		return value;
 	}
 
 	return {

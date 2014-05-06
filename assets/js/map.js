@@ -34,11 +34,11 @@ define(['layer-manager'], function(LayerManager) {
 						if(x < 0) x = 0;
 						if(y < 0) y = 0;
 
-						var rangeX = (layers[0].get('width') / mapSize.x) * x;
-						var rangeY = (layers[0].get('height') / mapSize.y) * y;
+						var rangeX = (layers[0].width / mapSize.x) * x;
+						var rangeY = (layers[0].height / mapSize.y) * y;
 
 						layers.each(function(layer) {
-							canvas = layer.get('canvas');
+							canvas = layer.canvas;
 
 							canvas.setStyles({
 								left: -rangeX,
@@ -81,8 +81,8 @@ define(['layer-manager'], function(LayerManager) {
 
 					if(ref) {
 						context.save();
-						context.globalAlpha = ref.get('opacity') || 1;
-						context.drawImage(ref.get('canvas'), 0, 0, canvas.width, canvas.height);//, size.x - 2, size.y - 2);//, size.x - 2, size.y - 2);
+						context.globalAlpha = ref.opacity || 1;
+						context.drawImage(ref.canvas, 0, 0, canvas.width, canvas.height);//, size.x - 2, size.y - 2);//, size.x - 2, size.y - 2);
 						context.restore();
 					}
 				});
@@ -90,8 +90,8 @@ define(['layer-manager'], function(LayerManager) {
 
 			resize: function() {
 				var w, h;
-				var currentWidth = $('canvas-container').getSize().x - 2;
-				var currentHeight = $('canvas-container').getSize().y - 2;
+				var currentWidth = $('canvas-wrapper').getSize().x - 2;
+				var currentHeight = $('canvas-wrapper').getSize().y - 2;
 				var currentRatio = currentWidth / currentHeight;
 
 				var layer = LayerManager.getInstance().getActiveLayer();

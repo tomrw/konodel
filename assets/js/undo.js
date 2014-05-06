@@ -68,9 +68,9 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 					ref = el.retrieve('ref');
 
 					var layer = {
-						name: ref.get('name'),
-						opacity: ref.get('opacity'),
-						data: this.cloneCanvas(ref.get('canvas'))
+						name: ref.name,
+						opacity: ref.opacity,
+						data: this.cloneCanvas(ref.canvas)
 					};
 
 					queueData.layers.push(layer);
@@ -178,13 +178,13 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 
 				data.layers.each(function(item) {
 					var newLayer = this.layer.addLayer(item.name);
-					newLayer.set('opacity', item.opacity);
+					newLayer.opacity = item.opacity;
 
-					newLayer.get('canvas').getContext('2d').drawImage(item.data, 0, 0);
+					newLayer.canvas.getContext('2d').drawImage(item.data, 0, 0);
 
 				}.bind(this));
 
-				var opacity = this.layer.getActiveLayer().get('opacity') * 100;
+				var opacity = this.layer.getActiveLayer().opacity * 100;
 				this.layer.getOpacitySlider().set(opacity);
 
 				var currentImage = data.currentImage;

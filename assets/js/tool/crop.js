@@ -51,8 +51,6 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 			$('canvas-container').setStyle('cursor', 'none');
 			this.crop.hide();
 
-			Layout.resizeLayout();
-
 			window.removeEvent('resize', this.timer_ref);
 			window.removeEvent('mapDrag', this.map_ref);
 		},
@@ -115,15 +113,14 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 
 				layers.each(function(layer) {
 
-					var canvas = layer.get('canvas');
+					var canvas = layer.canvas;
 					var context = canvas.getContext('2d');
 					var data = context.getImageData(this.left, this.top, this.width, this.height);
 
 					canvas.width = this.width;
 					canvas.height = this.height;
-
-					layer.set('width', this.width);
-					layer.set('height', this.height);
+					layer.width = this.width;
+					layer.height = this.height;
 
 					context.putImageData(data, 0, 0);
 

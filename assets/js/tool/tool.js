@@ -22,7 +22,7 @@ define(['layer-manager'], function(LayerManager) {
 
 		canvasChanged: function() {
 			this.layer = LayerManager.getInstance().getActiveLayer();
-			this.canvas = this.layer.get('canvas');
+			this.canvas = this.layer.canvas;
 			this.context = this.canvas.getContext('2d');
 		},
 

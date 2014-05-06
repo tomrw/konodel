@@ -1,158 +1,142 @@
 define(['events'], function(Events) {
-	var data = {};
-	var LayerManager;
 
-	return new Class({
+	function Layer(name, layerManager) {
+		this.name = name;
+		this.data = '';
+		this.width = layerManager.width;
+		this.height = layerManager.height;
+		this.hidden = false;
+		this.opacity = 1.0;
+		this.layerManager = layerManager;
+	}
 
-		initialize: function(name, layerManager) {
+	Layer.prototype.init = function() {
+		var layerManager = this.layerManager.getInstance();
+		var canvas = new Element('canvas', {'class': 'canvas', width: layerManager.width, height: layerManager.height});
+		var li = new Element('li');
+		var li_text = new Element('div', { html: this.name, 'class': 'text' });
+		var li_hide = new Element('div', { 'class': 'hide layer-visible'});
+		var li_del = new Element('div', { 'class': 'delete'});
+		var container = $('layers-container');
 
-			this.uid = String.uniqueID();
-			data[this.uid] = {};
+		canvas.width = layerManager.width;
+		canvas.height = layerManager.height;
 
-			LayerManager = layerManager.getInstance();
+		$('canvas-container').adopt(canvas);
+		li.adopt(li_text);
+		li.adopt(li_del);
+		li.adopt(li_hide);
+		container.insertBefore(li, container.getFirst());
 
-			var canvas = new Element('canvas', {'class': 'canvas', width: layerManager.width, height: layerManager.height});
-			var li = new Element('li');
-			var li_text = new Element('div', { html: name, 'class': 'text' });
-			var li_hide = new Element('div', { 'class': 'hide layer-visible'});
-			var li_del = new Element('div', { 'class': 'delete'});
-			var container = $('layers-container');
+		this.clickRef = this.clickEvent.bind(this);
+		this.delRef = this.deleteEvent.bind(this);
+		this.hideRef = this.hide.bind(this);
+		this.dblClickRef = this.dblClickEvent.bind(this);
 
-			canvas.width = layerManager.width;
-			canvas.height = layerManager.height;
+		li_text.addEvent('click', this.clickRef);
+		li_text.addEvent('dblclick', this.dblClickRef);
+		li_del.addEvent('click', this.delRef);
+		li_hide.addEvent('click', this.hideRef);
+		li.store('ref', this);
 
-			$('canvas-container').adopt(canvas);
-			li.adopt(li_text);
-			li.adopt(li_del);
-			li.adopt(li_hide);
-			container.insertBefore(li, container.getFirst());
+		this.menu = li;
+		this.canvas = canvas;
 
-			this.clickRef = this.clickEvent.bind(this);
-			this.delRef = this.deleteEvent.bind(this);
-			this.hideRef = this.hide.bind(this);
-			this.dblClickRef = this.dblClickEvent.bind(this);
+		this.draw();
+	};
 
-			li_text.addEvent('click', this.clickRef);
-			li_text.addEvent('dblclick', this.dblClickRef);
-			li_del.addEvent('click', this.delRef);
-			li_hide.addEvent('click', this.hideRef);
-			li.store('ref', this);
+	Layer.prototype.activate = function() {
+		this.menu.addClass('selected');
+	};
 
-			this.set('name', name);
-			this.set('menu', li);
-			this.set('canvas', canvas);
-			this.set('data', '');
-			this.set('width', layerManager.width);
-			this.set('height', layerManager.height);
-			this.set('hidden', false);
-			this.set('opacity', 1.0);
+	Layer.prototype.deactivate = function() {
+		this.menu.removeClass('selected');
+	};
 
-			this.draw();
-		},
+	Layer.prototype.remove = function() {
+		var manager = this.layerManager.getInstance();
 
-		get: function(key) {
-			return data[this.uid][key] || null;
-		},
+		this.menu.getChildren('div.hide')[0].removeEvent('click', this.hideRef);
+		this.menu.getChildren('div.delete')[0].removeEvent('click', this.delRef);
+		this.menu.getChildren('div.text')[0].removeEvent('dblclick', this.dblClickRef);
+		this.menu.getChildren('div.text')[0].removeEvent('click', this.clickRef);
 
-		set: function(key, value) {
-			data[this.uid][key] = value;
-		},
+		delete this.clickRef;
+		delete this.delRef;
+		delete this.hideRef;
+		delete this.dblClickRef;
 
-		activate: function() {
-			this.get('menu').addClass('selected');
-		},
+		this.canvas.getContext('2d').clearRect(0, 0, manager.width, manager.height);
+		this.canvas.width = this.canvas.height = 1;
 
-		deactivate: function() {
-			this.get('menu').removeClass('selected');
-		},
+		this.menu.eliminate('ref');
+		this.menu.destroy();
+		this.canvas.destroy();
+	};
 
-		remove: function() {
+	Layer.prototype.draw = function() {
+		var context = this.canvas.getContext('2d');
+		var layer = this.layerManager.getInstance();
 
-			var manager = LayerManager.getInstance();
+		context.fillStyle = "rgba(255,255,255,0.01)";
+		context.fillRect(0, 0, layer.width, layer.height);
+	};
 
-			this.get('menu').getChildren('div.hide')[0].removeEvent('click', this.hideRef);
-			this.get('menu').getChildren('div.delete')[0].removeEvent('click', this.delRef);
-			this.get('menu').getChildren('div.text')[0].removeEvent('dblclick', this.dblClickRef);
-			this.get('menu').getChildren('div.text')[0].removeEvent('click', this.clickRef);
-
-			delete this.clickRef;
-			delete this.delRef;
-			delete this.hideRef;
-			delete this.dblClickRef;
-
-			this.get('canvas').getContext('2d').clearRect(0, 0, manager.width, manager.height);
-			this.get('canvas').width = this.get('canvas').height = 1;
-
-			this.get('menu').eliminate('ref');
-			this.get('menu').destroy();
-			this.get('canvas').destroy();
-		},
-
-		draw: function() {
-
-			var context = this.get('canvas').getContext('2d');
-			var layer = LayerManager.getInstance();
-
-			context.fillStyle = "rgba(255,255,255,0.01)";
-			context.fillRect(0, 0, layer.width, layer.height);
-		},
-
-		hide: function() {
-
-			if(!this.get('hidden')) {
-				this.set('hidden', true);
-				this.get('menu').getChildren('div.hide').addClass('layer-hidden').removeClass('layer-visible');
-				this.get('canvas').setStyle('visibility', 'hidden');
-			}
-			else {
-				this.set('hidden', false);
-				this.get('menu').getChildren('div.hide').addClass('layer-visible').removeClass('layer-hidden');
-				this.get('canvas').setStyle('visibility', null);
-			}
-		},
-
-		isHidden: function() {
-			return this.get('hidden');
-		},
-
-		clickEvent: function() {
-			clearTimeout(this.clickTimer);
-
-			this.clickTimer = setTimeout(function() {
-				LayerManager.getInstance().setActiveLayer(this);
-			}.bind(this), 100);
-		},
-
-		deleteEvent: function() {
-			LayerManager.getInstance().removeLayer(this);
-		},
-
-		dblClickEvent: function() {
-			clearTimeout(this.clickTimer);
-
-			this.get('menu').getChildren('div.text')[0].set('html', '<input type="text" id="rename-layer" value="' + this.get('name') + '" maxlength="30" />');
-			this.renameEventRef = this.renameEvent.bind(this);
-
-			var rename = $('rename-layer');
-
-			rename.focus();
-			rename.addEvent('keydown', this.renameEventRef);
-		},
-
-		renameEvent: function(e) {
-
-			var text = this.get('menu').getChildren('div.text')[0];
-			var rename = $('rename-layer');
-
-			if(e.code == 13) {
-				this.set('name', rename.get('value'));
-				text.set('text', this.get('name'));
-
-				rename.removeEvent('keydown', this.renameEventRef);
-				rename.destroy();
-
-				Events.trigger(Events.SAVE_STATE);
-			}
+	Layer.prototype.hide = function() {
+		if(!this.hidden) {
+			this.hidden = true;
+			this.menu.getChildren('div.hide').addClass('layer-hidden').removeClass('layer-visible');
+			this.canvas.setStyle('visibility', 'hidden');
 		}
-	});
+		else {
+			this.hidden = false;
+			this.menu.getChildren('div.hide').addClass('layer-visible').removeClass('layer-hidden');
+			this.canvas.setStyle('visibility', null);
+		}
+	};
+
+	Layer.prototype.isHidden = function() {
+		return this.hidden;
+	};
+
+	Layer.prototype.clickEvent = function() {
+		clearTimeout(this.clickTimer);
+
+		this.clickTimer = setTimeout(function() {
+			this.layerManager.getInstance().setActiveLayer(this);
+		}.bind(this), 100);
+	};
+
+	Layer.prototype.deleteEvent = function() {
+		this.layerManager.getInstance().removeLayer(this);
+	};
+
+	Layer.prototype.dblClickEvent = function() {
+		clearTimeout(this.clickTimer);
+
+		this.menu.getChildren('div.text')[0].innerHTML = '<input type="text" id="rename-layer" value="' + this.name + '" maxlength="30" />';
+		this.renameEventRef = this.renameEvent.bind(this);
+
+		var rename = $('rename-layer');
+
+		rename.focus();
+		rename.addEvent('keydown', this.renameEventRef);
+	};
+
+	Layer.prototype.renameEvent = function(e) {
+		var text = this.menu.getChildren('div.text')[0];
+		var rename = $('rename-layer');
+
+		if(e.code == 13) {
+			this.name = rename.value;
+			text.innerText = this.name;
+
+			rename.removeEvent('keydown', this.renameEventRef);
+			rename.destroy();
+
+			Events.trigger(Events.SAVE_STATE);
+		}
+	};
+
+	return Layer;
 });

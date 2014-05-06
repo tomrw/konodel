@@ -65,11 +65,11 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 			$$('#layers-container li').each(function(el) {
 				ref = el.retrieve('ref');
 
-				var canvas = ref.get('canvas');
+				var canvas = ref.canvas;
 				var context = canvas.getContext('2d');
 				var context_temp = tmpCanvas.getContext('2d');
-				var w = ref.get('width');
-				var h = ref.get('height');
+				var w = ref.width;
+				var h = ref.height;
 
 				tmpCanvas.width = h;
 				tmpCanvas.height = w;
@@ -84,8 +84,8 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 				canvas.width = h;
 				canvas.height = w;
 
-				ref.set('width', h);
-				ref.set('height', w);
+				ref.width = h;
+				ref.height = w;
 
 				context.drawImage(tmpCanvas, 0, 0);
 
@@ -110,11 +110,11 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 			$$('#layers-container li').each(function(el) {
 				ref = el.retrieve('ref');
 
-				var canvas = ref.get('canvas');
+				var canvas = ref.canvas;
 				var context = canvas.getContext('2d');
 				var context_temp = tmpCanvas.getContext('2d');
-				var w = ref.get('width');
-				var h = ref.get('height');
+				var w = ref.width;
+				var h = ref.height;
 
 				tmpCanvas.width = w;
 				tmpCanvas.height = h;

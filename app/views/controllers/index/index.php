@@ -75,9 +75,11 @@
 				</li>
 			</ul>
 		</div>
-		<div id="canvas-container" class="left">
-			<div id="mouse-pointer">
-				<div id="mouse-outline"></div>
+		<div id="canvas-wrapper">
+			<div id="canvas-container">
+				<div id="mouse-pointer">
+					<div id="mouse-outline"></div>
+				</div>
 			</div>
 		</div>
 		<noscript>

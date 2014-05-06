@@ -14,7 +14,7 @@ define(['layer-manager'], function(LayerManager) {
 			var data = [];
 
 			layers.each(function(layer) {
-				data.push(layer.get('canvas').getContext('2d'));
+				data.push(layer.canvas.getContext('2d'));
 			});
 
 			return data;
@@ -31,12 +31,12 @@ define(['layer-manager'], function(LayerManager) {
 
 				if(useOpacity) {
 					context.save();
-					context.globalAlpha = layer.get('opacity') || 1;
-					context.drawImage(layer.get('canvas'), 0, 0, this.manager.width, this.manager.height);
+					context.globalAlpha = layer.opacity || 1;
+					context.drawImage(layer.canvas, 0, 0, this.manager.width, this.manager.height);
 					context.restore();
 				}
 				else {
-					context.drawImage(layer.get('canvas'), 0, 0, this.manager.width, this.manager.height);
+					context.drawImage(layer.canvas, 0, 0, this.manager.width, this.manager.height);
 				}
 			}.bind(this));
 		},

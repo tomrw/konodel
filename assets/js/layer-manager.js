@@ -33,6 +33,7 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 				if(layerLimit != 0 && layers.length == layerLimit) return;
 
 				var layer = new Layer(name, this);
+				layer.init();
 
 				if(activeLayer != null) {
 					activeLayer.deactivate();
@@ -40,7 +41,7 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 
 				layers.push(layer);
 
-				draggableLayers.addItems(layer.get('menu'));
+				draggableLayers.addItems(layer.menu);
 				this.setActiveLayer(layer);
 
 				return layer;
@@ -62,7 +63,7 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 				layer.activate();
 				activeLayer = layer;
 
-				opacitySlider.set(activeLayer.get('opacity') * 100);
+				opacitySlider.set(activeLayer.opacity * 100);
 
 				window.fireEvent('canvasChanged');
 			},
@@ -70,7 +71,7 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 			removeLayer: function(layer) {
 				if(layers.length == 1) return;
 
-				draggableLayers.removeItems(layer.get('menu'));
+				draggableLayers.removeItems(layer.menu);
 				$('layer-new').disabled = false;
 
 				for(var i = 0; i < layers.length; ++i) {
@@ -111,11 +112,11 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 							ref = el.retrieve('ref');
 
 							if(ref != null) {
-								canvas = ref.get('canvas');
+								canvas = ref.canvas;
 
 								canvas.setStyles({
-									width: ref.get('width'),
-									height: ref.get('height')
+									width: ref.width,
+									height: ref.height
 								});
 
 								container.adopt(canvas);
@@ -131,8 +132,8 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 						var layer = this.getActiveLayer();
 
 						if(layer != null) {
-							layer.get('canvas').setOpacity(step / 100);
-							layer.set('opacity', step / 100);
+							layer.canvas.setOpacity(step / 100);
+							layer.opacity = step / 100;
 
 							Toolbar.getInstance().refreshTool();
 						}
@@ -161,8 +162,8 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 					type = 'png';
 				}
 
-				var w = activeLayer.get('width').toInt();
-				var h = activeLayer.get('height').toInt();
+				var w = parseInt(activeLayer.width);
+				var h = parseInt(activeLayer.height);
 				var ratio = w / h;
 
 				if(ratio == 1) {
@@ -193,8 +194,8 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 					layer = el.retrieve('ref');
 
 					context.save();
-					context.globalAlpha = layer.get('opacity') || 1;
-					context.drawImage(layer.get('canvas'), 0, 0, width, height);
+					context.globalAlpha = layer.opacity || 1;
+					context.drawImage(layer.canvas, 0, 0, width, height);
 					context.restore();
 				});
 

@@ -143,14 +143,13 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 							img.src = item.data;
 
 							img.onload = function() {
-								var context = layer.get('canvas').getContext('2d');
+								var context = layer.canvas.getContext('2d');
 
 								context.fillStyle = "rgba(255,255,255,0.01)";
 								context.fillRect(0, 0, layer.width, layer.height);
 								context.drawImage(img, 0, 0);
 
-								layer.set('opacity', parseFloat(item.opacity));
-
+								layer.opacity = parseFloat(item.opacity);
 								layerManager.getOpacitySlider().set(parseFloat(item.opacity) * 100);
 
 								loadedLayers++;
@@ -465,7 +464,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 							self.getInstance().setCurrentImage(0, '', '', false);
 						}
 
-						layer.get('canvas').getContext('2d').drawImage(img, 0, 0, size.width, size.height);
+						layer.canvas.getContext('2d').drawImage(img, 0, 0, size.width, size.height);
 						Events.trigger(Events.SAVE_STATE);
 
 						CeraBoxWindow.hideLoader();

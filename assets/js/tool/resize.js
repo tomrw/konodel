@@ -48,6 +48,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 						Layout.resizeCanvas(width, height);
 					}
 					else {
+						debugger;
 
 						var ratio = currentWidth / currentHeight;
 
@@ -68,7 +69,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 						var loaded = false;
 
 						manager.getLayers().each(function(layer) {
-							var canvas = layer.get('canvas');
+							var canvas = layer.canvas;
 							var context = canvas.getContext('2d');
 
 							var img = new Image();
@@ -82,8 +83,8 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 
 								canvas.width = width > Layout.MAX_WIDTH ? Layout.MAX_WIDTH : width;
 								canvas.height = height > Layout.MAX_HEIGHT ? Layout.MAX_HEIGHT : height;
-								layer.set('width', canvas.width);
-								layer.set('height', canvas.height);
+								layer.width = canvas.width;
+								layer.height = canvas.height;
 
 								context.clearRect(0, 0, manager.width, manager.height);
 								context.drawImage(img, 0, 0, imageWidth, imageHeight);
