@@ -14,5 +14,9 @@ define(['events/event-bus'], function(EventBus) {
 	Events.SHOW_MOUSE_OUTLINE = 'showMouseOutline';
 	Events.SET_MOUSE_OUTLINE_WIDTH = 'setMouseOutlineWidth';
 
+	Events.DRAW_MAP = 'drawMap';
+	Events.RESIZE_MAP = 'resizeMap';
+	Events.TOGGLE_MAP = 'toggleMap';
+
 	return Events;
 });

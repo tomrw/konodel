@@ -1,4 +1,4 @@
-define(['layer-manager'], function(LayerManager) {
+define(['events', 'layer-manager'], function(Events, LayerManager) {
 
 	return (function() {
 		var instance;
@@ -15,6 +15,8 @@ define(['layer-manager'], function(LayerManager) {
 			init: function() {
 
 				this.resize();
+				Events.on(Events.DRAW_MAP, this.draw);
+				Events.on(Events.TOGGLE_MAP, this.toggle.bind(this));
 
 				setInterval(function() {
 					this.draw();
@@ -130,6 +132,16 @@ define(['layer-manager'], function(LayerManager) {
 				}).set('opacity', 0.2);
 
 				this.draw();
+			},
+
+			toggle: function(showMap) {
+				if (showMap) {
+					this.resize();
+					this.show();
+				}
+				else {
+					this.hide();
+				}
 			}
 		}
 	})();

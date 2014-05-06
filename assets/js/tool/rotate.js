@@ -1,5 +1,5 @@
-define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
-	function(Events, Layout, LayerManager, Map, Tool) {
+define(['events', 'layout', 'layer-manager', 'tool/tool'],
+	function(Events, Layout, LayerManager, Tool) {
 
 	var rotate;
 	var currentAngle = 0;
@@ -8,7 +8,6 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 	return new Class({
 
 		Extends: Tool,
-
 		name:'Rotate',
 
 		initialize: function() {
@@ -100,8 +99,7 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 			manager.height = width;
 
 			Layout.resizeLayout(height, width);
-			Map.getInstance().resize();
-
+			Events.trigger(Events.RESIZE_MAP);
 			Events.trigger(Events.SAVE_STATE);
 		},
 
@@ -136,7 +134,7 @@ define(['events', 'layout', 'layer-manager', 'map', 'tool/tool'],
 				context.drawImage(tmpCanvas, 0, 0);
 			});
 
-			Map.getInstance().draw();
+			Events.trigger(Events.DRAW_MAP);
 			Events.trigger(Events.SAVE_STATE);
 		}
 	});

@@ -1,4 +1,4 @@
-define(['layer-manager', 'map'], function(LayerManager, Map) {
+define(['events','layer-manager'], function(Events, LayerManager) {
 
 	function loadLayout() {
 		initLayout();
@@ -119,13 +119,7 @@ define(['layer-manager', 'map'], function(LayerManager, Map) {
 	}
 
 	function toggleMap(showMap) {
-		if (showMap) {
-			Map.getInstance().resize();
-			Map.getInstance().show();
-		}
-		else {
-			Map.getInstance().hide();
-		}
+		Events.trigger(Events.TOGGLE_MAP, showMap);
 	}
 
 	function getMinLength(max, value) {
