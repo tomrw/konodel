@@ -5,11 +5,8 @@
 	<title>Konodel / Image Editor</title>
 	<script type="text/javascript" src="lib/modernizr.js"></script>
 	<script type="text/javascript" src="lib/mootools.js"></script>
-	<script type="text/javascript" src="assets/js/global.js"></script>
 	<script type="text/javascript" src="lib/more.js"></script>
 	<script type="text/javascript" src="lib/cerabox.js"></script>
-	<script type="text/javascript" src="lib/moorainbow.js"></script>
-	<script type="text/javascript" src="lib/uvumicrop.js"></script>
 	<script type="text/javascript" src="lib/require.js" data-main="assets/js/init"></script>
 	<?= $this->helper('css')
 		->register('index.css')

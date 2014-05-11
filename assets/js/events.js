@@ -8,6 +8,8 @@ define(['events/event-bus'], function(EventBus) {
 	Events.RESET_UNDO = 'resetUndo';
 
 	Events.IGNORE_UNLOAD = 'ignoreUnload';
+	Events.COLOUR_PICKER_CHANGED = 'colourPickerChanged';
+	Events.CANVAS_CHANGED = 'canvasChanged';
 
 	Events.HIDE_MOUSE_POINTER = 'hideMousePointer';
 	Events.HIDE_MOUSE_OUTLINE = 'hideMouseOutline';
@@ -17,6 +19,7 @@ define(['events/event-bus'], function(EventBus) {
 	Events.DRAW_MAP = 'drawMap';
 	Events.RESIZE_MAP = 'resizeMap';
 	Events.TOGGLE_MAP = 'toggleMap';
+	Events.MAP_DRAGGED = 'mapDragged';
 
 	return Events;
 });

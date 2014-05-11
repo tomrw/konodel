@@ -1,11 +1,10 @@
-define(['tool/tool'], function(Tool) {
+define(['events', 'tool/tool'], function(Events, Tool) {
 
 	var preview;
 
 	return new Class({
 
 		Extends: Tool,
-
 		name:'Colour Picker',
 
 		activate: function() {
@@ -93,7 +92,7 @@ define(['tool/tool'], function(Tool) {
 				colour.rgb = [r, g, b];
 				colour.hex = [r, g, b].rgbToHex();
 
-				window.fireEvent('pickerChanged', colour);
+				Events.trigger(Events.COLOUR_PICKER_CHANGED, colour);
 			});
 		}
 	});

@@ -25,13 +25,13 @@ define(['events', 'tool/tool'], function(Events, Tool) {
 			}
 
 			this.map_ref = this.mapDragged.bind(this);
-			window.addEvent('mapDrag', this.map_ref);
+			Events.on(Events.MAP_DRAGGED, this.map_ref);
 		},
 
 		deactivate: function() {
 			this.parent();
 
-			window.addEvent('mapDrag', this.map_ref);
+			Events.off(Events.MAP_DRAGGED, this.map_ref);
 			this.map_ref = null;
 		},
 

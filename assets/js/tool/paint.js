@@ -20,8 +20,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 
 		initialize: function() {
 			this.parent();
-
-			window.addEvent('pickerChanged', this.pickerChanged.bind(this));
+			Events.on(Events.COLOUR_PICKER_CHANGED, this.pickerChanged.bind(this));
 		},
 
 		activate: function() {

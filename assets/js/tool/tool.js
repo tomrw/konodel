@@ -1,4 +1,4 @@
-define(['layer-manager'], function(LayerManager) {
+define(['events', 'layer-manager'], function(Events, LayerManager) {
 
 	return new Class({
 		canvas:null,
@@ -8,10 +8,7 @@ define(['layer-manager'], function(LayerManager) {
 
 		initialize: function() {
 			this.canvasChanged();
-
-			window.addEvent('canvasChanged', function() {
-				this.canvasChanged();
-			}.bind(this));
+			Events.on(Events.CANVAS_CHANGED, this.canvasChanged.bind(this));
 		},
 
 		activate: function() {},

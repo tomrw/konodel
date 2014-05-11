@@ -165,7 +165,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 			this.map_ref = this.mapDragged.bind(this);
 			window.addEvent('resize', this.timer_ref);
 			window.addEvent('keydown', this.del_ref);
-			window.addEvent('mapDrag', this.map_ref);
+			Events.on(Events.MAP_DRAGGED, this.map_ref);
 		},
 
 		deactivate: function() {
@@ -180,7 +180,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 
 			window.removeEvent('resize', this.timer_ref);
 			window.removeEvent('keydown', this.del_ref);
-			window.removeEvent('mapDrag', this.map_ref);
+			Events.off(Events.MAP_DRAGGED, this.map_ref);
 		},
 
 		refresh: function() {

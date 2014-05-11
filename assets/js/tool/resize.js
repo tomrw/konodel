@@ -48,8 +48,6 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 						Layout.resizeCanvas(width, height);
 					}
 					else {
-						debugger;
-
 						var ratio = currentWidth / currentHeight;
 
 						if(currentWidth > currentHeight) {

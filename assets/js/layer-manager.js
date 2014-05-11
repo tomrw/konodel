@@ -65,7 +65,7 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 
 				opacitySlider.set(activeLayer.opacity * 100);
 
-				window.fireEvent('canvasChanged');
+				Events.trigger(Events.CANVAS_CHANGED);
 			},
 
 			removeLayer: function(layer) {

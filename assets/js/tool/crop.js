@@ -1,4 +1,4 @@
-define(['events', 'layout', 'layer-manager', 'tool/tool'],
+define(['events', 'layout', 'layer-manager', 'tool/tool', '../../../lib/uvumicrop'],
 	function(Events, Layout, LayerManager, Tool) {
 
 	return new Class({
@@ -44,7 +44,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 			this.timer_ref = this.resize.bind(this);
 			this.map_ref = this.mapDragged.bind(this);
 			window.addEvent('resize', this.timer_ref);
-			window.addEvent('mapDrag', this.map_ref);
+			Events.on(Events.MAP_DRAGGED, this.map_ref);
 		},
 
 		deactivate: function() {
@@ -52,7 +52,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 			this.crop.hide();
 
 			window.removeEvent('resize', this.timer_ref);
-			window.removeEvent('mapDrag', this.map_ref);
+			Events.off(Events.MAP_DRAGGED, this.map_ref);
 		},
 
 		refresh: function() {

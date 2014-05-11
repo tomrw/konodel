@@ -18,9 +18,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 				Events.on(Events.DRAW_MAP, this.draw);
 				Events.on(Events.TOGGLE_MAP, this.toggle.bind(this));
 
-				setInterval(function() {
-					this.draw();
-				}.bind(this), 5000);
+				setInterval(this.draw, 5000);
 
 				new Drag.Move($('map-selection'), {
 					container: $('map'),
@@ -48,7 +46,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 							});
 						});
 
-						window.fireEvent('mapDrag');
+						Events.trigger(Events.MAP_DRAGGED);
 					}
 				});
 			},

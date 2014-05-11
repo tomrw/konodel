@@ -1,5 +1,5 @@
-define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
-	function(Events, Layout, LayerManager, UndoManager, Toolbar, Upload) {
+define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/image'],
+	function(Events, Layout, LayerManager, UndoManager, Toolbar, Upload, ImageUtils) {
 
 	var lightboxLoad, lightboxSave, lightboxUpload, uploadRef;
 	var currentImage = {};
@@ -446,7 +446,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload'],
 							max_height = MAX_HEIGHT != 0 ? MAX_HEIGHT : response.height;
 						}
 
-						var size = resize(response.width, response.height, max_width, max_height);
+						var size = ImageUtils.resize(response.width, response.height, max_width, max_height);
 
 						img.width = size.width;
 						img.height = size.height;

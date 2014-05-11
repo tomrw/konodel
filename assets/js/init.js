@@ -1,15 +1,13 @@
-define(['layout', 'layer-manager', 'undo', 'tools', 'pointer', 'persistence', 'map', 'account', 'keyboard'],
-	function(Layout, LayerManager, UndoManager, Toolbar, MousePointer, Persistance, Map, Account, KeyboardManager) {
+define(['layout', 'layer-manager', 'undo', 'tools', 'pointer', 'persistence', 'map', 'account', 'keyboard', 'colour-picker'],
+	function(Layout, LayerManager, UndoManager, Toolbar, MousePointer, Persistance, Map, Account, KeyboardManager, ColourPicker) {
 
 	setTimeout(function() {
-
 		if(!Modernizr.canvas) {
 			$('upgrade-browser').setStyle('display', 'inline');
 			return;
 		}
 
 		Layout.loadLayout();
-		initGlobal();
 
 		var layerManager = LayerManager.getInstance();
 		layerManager.addLayer('Layer 1');
