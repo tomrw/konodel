@@ -26,15 +26,14 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 
 				$$('.cerabox-content .btnImageSave')[0].disabled = true;
 
-				var layerManager = LayerManager.getInstance();
-				var layers = layerManager.getLayers();
+				var layers = LayerManager.getLayers();
 				var layer, temp;
 
 				var saveData = {};
 				saveData.layers = [];
-				saveData.thumb = layerManager.flatten(100, 100);
-				saveData.width = layerManager.width;
-				saveData.height = layerManager.height;
+				saveData.thumb = LayerManager.flatten(100, 100);
+				saveData.width = LayerManager.width;
+				saveData.height = LayerManager.height;
 				saveData.name = currentImage.name;
 				saveData.desc = currentImage.desc;
 				saveData.publish = currentImage.publish;
@@ -44,7 +43,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 				}
 
 				if(saveData.publish) {
-					saveData.display = layerManager.flatten(800, 800);
+					saveData.display = LayerManager.flatten(800, 800);
 				}
 
 				$$('#layers-container li').reverse().each(function(el, order) {
@@ -97,8 +96,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 						});
 					},
 					onComplete: function(data) {
-						var layerManager = LayerManager.getInstance();
-
 						if(!data.success) {
 							alert('Error loading image: ' + data.message);
 							CeraBoxWindow.hideLoader();
@@ -121,13 +118,13 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 							return;
 						}
 
-						var width = layerManager.width;
-						var height = layerManager.height;
+						var width = LayerManager.width;
+						var height = LayerManager.height;
 
-						layerManager.width = data.width;
-						layerManager.height = data.height;
+						LayerManager.width = data.width;
+						LayerManager.height = data.height;
 
-						layerManager.clear();
+						LayerManager.clear();
 						CeraBoxWindow.hideLoader();
 
 						this.setCurrentImage(id, data.name, data.desc, data.publish);
@@ -137,7 +134,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 						var timer;
 
 						data.layers.each(function(item) {
-							var layer = layerManager.addLayer(item.name);
+							var layer = LayerManager.addLayer(item.name);
 
 							var img = new Image();
 							img.src = item.data;
@@ -150,14 +147,13 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 								context.drawImage(img, 0, 0);
 
 								layer.opacity = parseFloat(item.opacity);
-								layerManager.getOpacitySlider().set(parseFloat(item.opacity) * 100);
+								LayerManager.getOpacitySlider().set(parseFloat(item.opacity) * 100);
 
 								loadedLayers++;
 							};
 						});
 
 						timer = setInterval(function() {
-
 							if(loadedLayers != numLayers) return;
 
 							Toolbar.getInstance().setTool('ToolPaint');
@@ -287,10 +283,8 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 			},
 
 			exportImage: function(type) {
-				var manager = LayerManager.getInstance();
-				var data = manager.flatten(manager.width, manager.height, type);
-
-				window.open(data, '_blank', 'height=' + (manager.height + 20) + ',width=' + (manager.width + 20));
+				var data = LayerManager.flatten(LayerManager.width, LayerManager.height, type);
+				window.open(data, '_blank', 'height=' + (LayerManager.height + 20) + ',width=' + (LayerManager.width + 20));
 			},
 
 			init: function() {
@@ -398,16 +392,13 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 					var open = confirm('Are you sure you want to close this image and open antoher?');
 
 					if(open) {
-						var manager = LayerManager.getInstance();
-
-						manager.clear();
+						LayerManager.clear();
 						Events.trigger(Events.RESET_UNDO);
 
 						this.setCurrentImage(0, '', '', false);
 
 						Layout.initLayout();
-
-						manager.addLayer('Layer 1');
+						LayerManager.addLayer('Layer 1');
 						Toolbar.getInstance().refreshTool();
 						Events.trigger(Events.SAVE_STATE);
 					}
@@ -428,8 +419,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 				response = JSON.decode(response);
 
 				if(response.success) {
-
-					var layerManager = LayerManager.getInstance();
 					var img = new Image();
 					var newLayer = $$('.cerabox-content .chkCurrentImage')[0].get('checked');
 					var max_width, max_height;
@@ -438,8 +427,8 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 
 					img.onload = function() {
 						if(newLayer) {
-							max_width = layerManager.width;
-							max_height = layerManager.height;
+							max_width = LayerManager.width;
+							max_height = LayerManager.height;
 						}
 						else {
 							max_width = MAX_WIDTH != 0 ? MAX_WIDTH : response.width;
@@ -452,12 +441,12 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 						img.height = size.height;
 
 						if(newLayer) {
-							var layer = layerManager.addLayer('Layer ' + (layerManager.getLayers().length + 1));
+							var layer = LayerManager.addLayer('Layer ' + (LayerManager.getLayers().length + 1));
 						}
 						else {
-							layerManager.clear();
+							LayerManager.clear();
 							resizeLayout(size.width, size.height);
-							var layer = layerManager.addLayer('Layer 1');
+							var layer = LayerManager.addLayer('Layer 1');
 
 							Events.trigger(Events.RESET_UNDO);
 							Events.trigger(Events.SAVE_STATE);

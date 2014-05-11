@@ -9,8 +9,7 @@ define(['layout', 'layer-manager', 'undo', 'tools', 'pointer', 'persistence', 'm
 
 		Layout.loadLayout();
 
-		var layerManager = LayerManager.getInstance();
-		layerManager.addLayer('Layer 1');
+		LayerManager.addLayer('Layer 1');
 
 		var undoManager = UndoManager.getInstance();
 		undoManager.saveState();

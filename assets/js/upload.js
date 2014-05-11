@@ -34,10 +34,9 @@ define(['layer-manager'], function(LayerManager) {
 			this.setOptions(options);
 			this.uploading = false;
 
-			var layerManager = LayerManager.getInstance();
-			var maxLayers = layerManager.getLayerLimit();
+			var maxLayers = LayerManager.getLayerLimit();
 
-			if(maxLayers != 0 && maxLayers == layerManager.getLayers().length) {
+			if(maxLayers != 0 && maxLayers == LayerManager.getLayers().length) {
 				var checkbox = input.getParent('form').getChildren('div.uploadLayer .chkCurrentImage')[0];
 				checkbox.disabled = true;
 				checkbox.set('checked', false);

@@ -6,7 +6,7 @@ define(['layer-manager'], function(LayerManager) {
 		working:false,
 
 		initialize: function() {
-			this.manager = LayerManager.getInstance();
+			this.manager = LayerManager;
 		},
 
 		getPixels: function() {
@@ -21,7 +21,6 @@ define(['layer-manager'], function(LayerManager) {
 		},
 
 		drawPreview: function(canvas, opacity) {
-
 			var useOpacity = opacity == undefined ? true : opacity;
 			var context = canvas.getContext('2d');
 			context.clearRect(0, 0, this.manager.width, this.manager.height);
@@ -48,7 +47,19 @@ define(['layer-manager'], function(LayerManager) {
 		getTempCanvas: function() {
 			if(!this.tmpCanvas) {
 				var offset = $('canvas-container').getCoordinates($$('#canvas-container canvas.canvas')[0]);
-				this.tmpCanvas = new Element('canvas', { id: 'tmp-canvas', styles: { display: 'none', position:'absolute', 'background-color':'#fff', 'z-index': 765, top: -(offset.top + 1), left: -(offset.left + 1) }, width: this.manager.width, height: this.manager.height} );
+				this.tmpCanvas = new Element('canvas', {
+					id: 'tmp-canvas',
+					styles: {
+						'background-color':'#fff',
+						display: 'none',
+						left: -(offset.left + 1),
+						position:'absolute',
+						top: -(offset.top + 1),
+						'z-index': 765
+					},
+					width: LayerManager.width,
+					height: LayerManager.height
+				});
 
 				$('canvas-container').adopt(this.tmpCanvas);
 			}

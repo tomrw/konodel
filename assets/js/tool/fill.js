@@ -19,7 +19,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 				click: function(e) {
 
 					if(this.layer.isHidden()) {
-						LayerManager.getInstance().layerHiddenWarning(this.layer);
+						LayerManager.layerHiddenWarning(this.layer);
 						return;
 					}
 
@@ -37,10 +37,8 @@ define(['events', 'layer-manager', 'tool/tool'],
 			if(this.working) return;
 			this.working = true;
 
-			var layer = LayerManager.getInstance();
-			var width = layer.width;
-			var height = layer.height;
-
+			var width = LayerManager.width;
+			var height = LayerManager.height;
 			var data = this.context.getImageData(0, 0, width, height);
 			var rgb = this.context.getImageData(_x, _y, 1, 1).data;
 			var fillRGB = this.fillRGB;
@@ -58,7 +56,6 @@ define(['events', 'layer-manager', 'tool/tool'],
 			var index, n, x, y, reachLeft, reachRight;
 
 			while(q.length) {
-
 				n = q.pop();
 
 				x = n[0];

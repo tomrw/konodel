@@ -25,7 +25,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 					onDrag: function(el) {
 						var x = el.getStyle('left').toInt();
 						var y = el.getStyle('top').toInt();
-						var layers = LayerManager.getInstance().getLayers();
+						var layers = LayerManager.getLayers();
 						var canvas;
 
 						var mapSize = $('map').getSize();
@@ -94,10 +94,8 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 				var currentHeight = $('canvas-wrapper').getSize().y - 2;
 				var currentRatio = currentWidth / currentHeight;
 
-				var layer = LayerManager.getInstance().getActiveLayer();
-				var manager = LayerManager.getInstance();
-				var width = manager.width;
-				var height = manager.height;
+				var width = LayerManager.width;
+				var height = LayerManager.height;
 				var ratio = width / height;
 
 				// Display the 

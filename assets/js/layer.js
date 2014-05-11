@@ -11,7 +11,7 @@ define(['events'], function(Events) {
 	}
 
 	Layer.prototype.init = function() {
-		var layerManager = this.layerManager.getInstance();
+		var layerManager = this.layerManager;
 		var canvas = new Element('canvas', {'class': 'canvas', width: layerManager.width, height: layerManager.height});
 		var li = new Element('li');
 		var li_text = new Element('div', { html: this.name, 'class': 'text' });
@@ -54,7 +54,7 @@ define(['events'], function(Events) {
 	};
 
 	Layer.prototype.remove = function() {
-		var manager = this.layerManager.getInstance();
+		var manager = this.layerManager;
 
 		this.menu.getChildren('div.hide')[0].removeEvent('click', this.hideRef);
 		this.menu.getChildren('div.delete')[0].removeEvent('click', this.delRef);
@@ -76,7 +76,7 @@ define(['events'], function(Events) {
 
 	Layer.prototype.draw = function() {
 		var context = this.canvas.getContext('2d');
-		var layer = this.layerManager.getInstance();
+		var layer = this.layerManager;
 
 		context.fillStyle = "rgba(255,255,255,0.01)";
 		context.fillRect(0, 0, layer.width, layer.height);
@@ -103,12 +103,12 @@ define(['events'], function(Events) {
 		clearTimeout(this.clickTimer);
 
 		this.clickTimer = setTimeout(function() {
-			this.layerManager.getInstance().setActiveLayer(this);
+			this.layerManager.setActiveLayer(this);
 		}.bind(this), 100);
 	};
 
 	Layer.prototype.deleteEvent = function() {
-		this.layerManager.getInstance().removeLayer(this);
+		this.layerManager.removeLayer(this);
 	};
 
 	Layer.prototype.dblClickEvent = function() {

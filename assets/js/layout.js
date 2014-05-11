@@ -1,4 +1,4 @@
-define(['events','layer-manager'], function(Events, LayerManager) {
+define(['events', 'layer-manager'], function(Events, LayerManager) {
 
 	function loadLayout() {
 		initLayout();
@@ -9,7 +9,6 @@ define(['events','layer-manager'], function(Events, LayerManager) {
 	var MAX_HEIGHT = 1000;
 
 	function initLayout() {
-		var layerManager = LayerManager.getInstance();
 		var wrapper = document.getElementById('canvas-wrapper');
 		var canvasContainer = document.getElementById('canvas-container');
 		var offset = 2;
@@ -22,8 +21,8 @@ define(['events','layer-manager'], function(Events, LayerManager) {
 		canvasContainer.style['margin-top'] = -canvasContainer.offsetHeight / 2 + 'px';
 		canvasContainer.style['margin-left'] = -canvasContainer.offsetWidth / 2 + 'px';
 
-		layerManager.width = width;
-		layerManager.height = height;
+		LayerManager.width = width;
+		LayerManager.height = height;
 	}
 
 	function resizeLayout(newWidth, newHeight) {
@@ -31,10 +30,9 @@ define(['events','layer-manager'], function(Events, LayerManager) {
 		newHeight = getMinLength(MAX_HEIGHT, newHeight);
 
 		var canvasContainer = document.getElementById('canvas-container');
-		var layerManager = LayerManager.getInstance();
 
-		layerManager.width = newWidth;
-		layerManager.height = newHeight;
+		LayerManager.width = newWidth;
+		LayerManager.height = newHeight;
 
 		canvasContainer.style.width = newWidth + 'px';
 		canvasContainer.style.height = newHeight + 'px';
@@ -43,20 +41,19 @@ define(['events','layer-manager'], function(Events, LayerManager) {
 	}
 
 	function alignLayout() {
-		var layerManager = LayerManager.getInstance();
 		var wrapper = document.getElementById('canvas-wrapper');
 		var heightAvailable = wrapper.offsetHeight;
 		var widthAvailable = wrapper.offsetWidth;
 		var canvasContainer = document.getElementById('canvas-container');
-		var currentHeight = layerManager.height;
-		var currentWidth = layerManager.width;
+		var currentHeight = LayerManager.height;
+		var currentWidth = LayerManager.width;
 		var showMap = false;
 		var styles = {};
 
 		if (currentWidth < widthAvailable) {
 			styles.left = '50%';
-			styles['margin-left'] = -(layerManager.width) / 2;
-			styles.width = layerManager.width -2;
+			styles['margin-left'] = -(LayerManager.width) / 2;
+			styles.width = LayerManager.width -2;
 		}
 		else {
 			styles.left = 0;
@@ -67,8 +64,8 @@ define(['events','layer-manager'], function(Events, LayerManager) {
 
 		if (currentHeight < heightAvailable) {
 			styles.top = '50%';
-			styles['margin-top'] = -(layerManager.height) / 2;
-			styles.height = layerManager.height - 2;
+			styles['margin-top'] = -(LayerManager.height) / 2;
+			styles.height = LayerManager.height - 2;
 		}
 		else {
 			styles.top = 0;

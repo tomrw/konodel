@@ -2,7 +2,6 @@ define(['events', 'layout', 'layer-manager', 'tool/tool', '../../../lib/uvumicro
 	function(Events, Layout, LayerManager, Tool) {
 
 	return new Class({
-
 		Extends: Tool,
 
 		crop:null,
@@ -75,17 +74,19 @@ define(['events', 'layout', 'layer-manager', 'tool/tool', '../../../lib/uvumicro
 		},
 
 		crop: function(top, left, width, height) {
-
 			var canvasOffset = $$('#canvas-container canvas.canvas')[0];
-			var manager = LayerManager.getInstance();
 
 			this.top = top - canvasOffset.getStyle('top').toInt();
 			this.left = left - canvasOffset.getStyle('left').toInt();
 			this.width = width - 2;
 			this.height = height - 2;
 
-			if(this.width > manager.width) this.width = manager.width;
-			if(this.height > manager.height) this.height = manager.height;
+			if(this.width > LayerManager.width) {
+				this.width = LayerManager.width;
+			}
+			if(this.height > LayerManager.height) {
+				this.height = LayerManager.height;
+			}
 		},
 
 		resize: function() {
@@ -99,20 +100,18 @@ define(['events', 'layout', 'layer-manager', 'tool/tool', '../../../lib/uvumicro
 
 		initToolInfo: function() {
 			$('btnCrop').addEvent('click', function() {
-
-				var manager = LayerManager.getInstance();
-
 				if(this.layer.isHidden()) {
-					manager.layerHiddenWarning(this.layer);
+					LayerManager.layerHiddenWarning(this.layer);
 					return;
 				}
 
-				if(this.width == manager.width && this.height == manager.height) return;
+				if(this.width == LayerManager.width && this.height == LayerManager.height) {
+					return;
+				}
 
-				var layers = LayerManager.getInstance().getLayers();
+				var layers = LayerManager.getLayers();
 
 				layers.each(function(layer) {
-
 					var canvas = layer.canvas;
 					var context = canvas.getContext('2d');
 					var data = context.getImageData(this.left, this.top, this.width, this.height);

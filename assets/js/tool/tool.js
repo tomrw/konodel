@@ -18,7 +18,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 		},
 
 		canvasChanged: function() {
-			this.layer = LayerManager.getInstance().getActiveLayer();
+			this.layer = LayerManager.getActiveLayer();
 			this.canvas = this.layer.canvas;
 			this.context = this.canvas.getContext('2d');
 		},

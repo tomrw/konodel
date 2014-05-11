@@ -2,34 +2,29 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 	function(Events, Layout, LayerManager, Tool) {
 
 	return new Class({
-
 		Extends: Tool,
-
 		name:'Resize',
 
 		getToolInfo: function() {
-			var manager = LayerManager.getInstance();
-			return 'Width: <input type="text" id="txtCanvasWidth" value="' + manager.width + '"><br />Height: <input type="text" id="txtCanvasHeight" value="' + manager.height + '"><br />Scale Image: <input type="checkbox" id="scale-image" /><br /><button id="btnCanvasResize" class="btn">Resize</button>';
+			return 'Width: <input type="text" id="txtCanvasWidth" value="' + LayerManager.width + '"><br />Height: <input type="text" id="txtCanvasHeight" value="' + LayerManager.height + '"><br />Scale Image: <input type="checkbox" id="scale-image" /><br /><button id="btnCanvasResize" class="btn">Resize</button>';
 		},
 
 		initToolInfo: function() {
-
 			$('txtCanvasWidth').focus();
 
 			$('btnCanvasResize').addEvent('click', function() {
 
 				if(this.layer.isHidden()) {
-					LayerManager.getInstance().layerHiddenWarning(this.layer);
+					LayerManager.layerHiddenWarning(this.layer);
 					return;
 				}
 
 				var width = $('txtCanvasWidth').get('value').toInt() || 0;
 				var height = $('txtCanvasHeight').get('value').toInt() || 0;
-				var manager = LayerManager.getInstance();
 				var scale = $('scale-image').get('checked');
 				var resize = true;
-				var currentWidth = manager.width;
-				var currentHeight = manager.height;
+				var currentWidth = LayerManager.width;
+				var currentHeight = LayerManager.height;
 
 				if(width <= 0 || height <= 0) return;
 				if(width == currentWidth && height == currentHeight) return;
@@ -66,7 +61,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 
 						var loaded = false;
 
-						manager.getLayers().each(function(layer) {
+						LayerManager.getLayers().each(function(layer) {
 							var canvas = layer.canvas;
 							var context = canvas.getContext('2d');
 
@@ -84,7 +79,7 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 								layer.width = canvas.width;
 								layer.height = canvas.height;
 
-								context.clearRect(0, 0, manager.width, manager.height);
+								context.clearRect(0, 0, LayerManager.width, LayerManager.height);
 								context.drawImage(img, 0, 0, imageWidth, imageHeight);
 
 								loaded = true;
@@ -94,8 +89,8 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 					}
 
 					// this was moved up a level
-					$('txtCanvasWidth').set('value', manager.width);
-					$('txtCanvasHeight').set('value', manager.height);
+					$('txtCanvasWidth').set('value', LayerManager.width);
+					$('txtCanvasHeight').set('value', LayerManager.height);
 
 					var interval = setInterval(function() {
 						if(loaded) {
@@ -111,9 +106,8 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 		},
 
 		refresh: function() {
-			var manager = LayerManager.getInstance();
-			$('txtCanvasWidth').set('value', manager.width);
-			$('txtCanvasHeight').set('value', manager.height);
+			$('txtCanvasWidth').set('value', LayerManager.width);
+			$('txtCanvasHeight').set('value', LayerManager.height);
 		},
 
 		removeToolInfo: function() {

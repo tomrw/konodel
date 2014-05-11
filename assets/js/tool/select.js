@@ -122,7 +122,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 						this.clicked = this.entered = false;
 						this.data = null;
 
-						LayerManager.getInstance().layerHiddenWarning(this.layer);
+						LayerManager.layerHiddenWarning(this.layer);
 						return;
 					}
 
@@ -270,7 +270,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 				this.clicked = this.entered = false;
 				this.data = null;
 
-				LayerManager.getInstance().layerHiddenWarning(this.layer);
+				LayerManager.layerHiddenWarning(this.layer);
 				return;
 			}
 
@@ -312,9 +312,10 @@ define(['events', 'layer-manager', 'tool/tool'],
 		},
 
 		fixClear: function() {
-			var layer = LayerManager.getInstance();
-			var data = this.context.getImageData(0, 0, layer.width, layer.height);
-			var it = layer.width * layer.height * 4;
+			var width = LayerManager.width;
+			var height = LayerManager.height;
+			var data = this.context.getImageData(0, 0, width, height);
+			var it = width * height * 4;
 
 			for(var i = 0; i < it; i += 4) {
 				if(data.data[i + 3] == 0) {

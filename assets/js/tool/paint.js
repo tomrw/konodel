@@ -31,7 +31,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 				mousedown: function(e) {
 
 					if(this.layer.isHidden()) {
-						LayerManager.getInstance().layerHiddenWarning(this.layer);
+						LayerManager.layerHiddenWarning(this.layer);
 						return;
 					}
 
@@ -70,9 +70,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 		},
 
 		bresenham: function() {
-
-			var manager = LayerManager.getInstance();
-			var data = this.context.getImageData(0, 0, manager.width, manager.height);
+			var data = this.context.getImageData(0, 0, LayerManager.width, LayerManager.height);
 			var x0, y0, x1, y1;
 			var colour = new Color(this.brushColour);
 
@@ -89,16 +87,13 @@ define(['events', 'layer-manager', 'tool/tool'],
 		},
 
 		drawBresenhamLine: function(data, x0, y0, x1, y1, r, g, b) {
-
-			var manager = LayerManager.getInstance();
-
 			var dx = Math.abs(x1 - x0);
 			var dy = Math.abs(y1 - y0);
 			var sx = x0 < x1 ? 1 : -1;
 			var sy = y0 < y1 ? 1 : -1;
 			var error = dx - dy;
 			var e2, index;
-			var width = manager.width;
+			var width = LayerManager.width;
 
 			while(true) {
 				index = (x0 + y0 * width) * 4;

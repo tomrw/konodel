@@ -48,17 +48,15 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 		},
 
 		rotate: function(angle) {
-
 			if(this.layer.isHidden()) {
-				LayerManager.getInstance().layerHiddenWarning(this.layer);
+				LayerManager.layerHiddenWarning(this.layer);
 				return;
 			}
 
 			if(angle != 90 && angle != -90 && angle != 180) return;
 
-			var manager = LayerManager.getInstance();
-			var width = manager.width;
-			var height = manager.height;
+			var width = LayerManager.width;
+			var height = LayerManager.height;
 			var ref;
 
 			$$('#layers-container li').each(function(el) {
@@ -95,8 +93,8 @@ define(['events', 'layout', 'layer-manager', 'tool/tool'],
 
 			}.bind(this));
 
-			manager.width = height;
-			manager.height = width;
+			LayerManager.width = height;
+			LayerManager.height = width;
 
 			Layout.resizeLayout(height, width);
 			Events.trigger(Events.RESIZE_MAP);

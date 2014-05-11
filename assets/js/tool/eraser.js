@@ -23,7 +23,7 @@ define(['events', 'layer-manager', 'tool/tool'],
 				mousedown: function(e) {
 
 					if(this.layer.isHidden()) {
-						LayerManager.getInstance().layerHiddenWarning(this.layer);
+						LayerManager.layerHiddenWarning(this.layer);
 						return;
 					}
 
@@ -101,9 +101,10 @@ define(['events', 'layer-manager', 'tool/tool'],
 		mouseup: function() {
 			this.drawing = false;
 
-			var layer = LayerManager.getInstance();
-			var data = this.context.getImageData(0, 0, layer.width, layer.height);
-			var it = layer.width * layer.height * 4;
+			var width = LayerManager.width;
+			var height = LayerManager.height;
+			var data = this.context.getImageData(0, 0, width, height);
+			var it = width * height * 4;
 
 			for(var i = 0; i < it; i += 4) {
 				if(data.data[i + 3] == 0) {

@@ -36,8 +36,6 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 					e.stop();
 				}.bind(this));
 
-				this.layer = LayerManager.getInstance();
-
 				Events.on(Events.SAVE_STATE, this.saveState.bind(this));
 				Events.on(Events.UNDO, this.undo.bind(this));
 				Events.on(Events.REDO, this.redo.bind(this));
@@ -49,8 +47,8 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 				var currentImage = Persistance.getInstance().getCurrentImage();
 
 				var queueData = {
-					width: this.layer.width,
-					height: this.layer.height,
+					width: LayerManager.width,
+					height: LayerManager.height,
 					layers: [],
 					callback: false,
 					currentImage: {
@@ -172,20 +170,20 @@ define(['events', 'layer-manager', 'layout', 'tools'],
 
 				var data = queue[index];
 
-				this.layer.clear();
+				LayerManager.clear();
 
 				Layout.resizeLayout(data.width, data.height);
 
 				data.layers.each(function(item) {
-					var newLayer = this.layer.addLayer(item.name);
+					var newLayer = LayerManager.addLayer(item.name);
 					newLayer.opacity = item.opacity;
 
 					newLayer.canvas.getContext('2d').drawImage(item.data, 0, 0);
 
 				}.bind(this));
 
-				var opacity = this.layer.getActiveLayer().opacity * 100;
-				this.layer.getOpacitySlider().set(opacity);
+				var opacity = LayerManager.getActiveLayer().opacity * 100;
+				LayerManager.getOpacitySlider().set(opacity);
 
 				var currentImage = data.currentImage;
 				Persistance.getInstance().setCurrentImage(currentImage.id, currentImage.name, currentImage.desc, currentImage.publish);
