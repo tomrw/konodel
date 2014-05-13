@@ -34,7 +34,6 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 		}
 
 		this.layers.push(layer);
-
 		this.draggableLayers.addItems(layer.menu);
 		this.setActiveLayer(layer);
 
@@ -50,13 +49,11 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 	};
 
 	LayerManagerPrototype.setActiveLayer = function(layer) {
-
 		if(this.activeLayer == layer) return;
 		if(this.activeLayer != null) this.activeLayer.deactivate();
 
 		layer.activate();
 		this.activeLayer = layer;
-
 		this.opacitySlider.set(this.activeLayer.opacity * 100);
 
 		Events.trigger(Events.CANVAS_CHANGED);
@@ -85,14 +82,15 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 	};
 
 	LayerManagerPrototype.init = function() {
+		var self = this;
 		$('layer-new').addEvent('click', function() {
-			var layer = this.addLayer('Layer ' + (this.layers.length + 1));
+			var layer = self.addLayer('Layer ' + (self.layers.length + 1));
 			Events.trigger(Events.SAVE_STATE);
-		}.bind(this));
+		});
 
 		$('layer-delete').addEvent('click', function() {
-			this.removeLayer(this.getActiveLayer());
-		}.bind(this));
+			self.removeLayer(self.getActiveLayer());
+		});
 
 		this.draggableLayers = new Sortables('#layers-container', {
 			clone:true,
@@ -122,17 +120,14 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 		this.opacitySlider = new Slider($('layer-opacity'), $('layer-opacity').getElement('.knob'), {
 			range: [1, 100],
 			onChange: function(step) {
-
-				var layer = this.getActiveLayer();
-
+				var layer = self.getActiveLayer();
 				if(layer != null) {
 					layer.canvas.setOpacity(step / 100);
 					layer.opacity = step / 100;
 
 					Toolbar.getInstance().refreshTool();
 				}
-
-			}.bind(this)
+			}
 		});
 	};
 
@@ -145,9 +140,9 @@ define(['events', 'layer', 'tools'], function(Events, Layer, Toolbar) {
 		this.activeLayer = null;
 	};
 
-	LayerManagerPrototype.resize = function(w, h) {
-		LayerManager.width = w;
-		LayerManager.height = h;
+	LayerManagerPrototype.resize = function(width, height) {
+		LayerManager.width = width;
+		LayerManager.height = height;
 	};
 
 	LayerManagerPrototype.flatten = function(width, height, type) {

@@ -27,6 +27,7 @@ define(['events', 'pointer'], function(Events, MousePointer) {
 						var toolName = id.replace(new RegExp(base, 'gi'), '').toLowerCase();
 						require([base + '/' + toolName], function(Tool) {
 							var tool = new Tool();
+							tool.init();
 							tools[id] = tool;
 
 							if(!item.hasClass('isParent')) {

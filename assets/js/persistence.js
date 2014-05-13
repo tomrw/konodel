@@ -51,9 +51,9 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 					layer = el.retrieve('ref');
 
 					temp = {};
-					temp.name = layer.get('name');
-					temp.data = encodeURIComponent(layer.get('canvas').toDataURL());
-					temp.opacity = layer.get('opacity');
+					temp.name = layer.name;
+					temp.data = encodeURIComponent(layer.canvas.toDataURL());
+					temp.opacity = layer.opacity;
 					temp.order = order;
 
 					saveData.layers.push(temp);
@@ -431,8 +431,8 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 							max_height = LayerManager.height;
 						}
 						else {
-							max_width = MAX_WIDTH != 0 ? MAX_WIDTH : response.width;
-							max_height = MAX_HEIGHT != 0 ? MAX_HEIGHT : response.height;
+							max_width = Layout.MAX_WIDTH != 0 ? Layout.MAX_WIDTH : response.width;
+							max_height = Layout.MAX_HEIGHT != 0 ? Layout.MAX_HEIGHT : response.height;
 						}
 
 						var size = ImageUtils.resize(response.width, response.height, max_width, max_height);
@@ -445,7 +445,7 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 						}
 						else {
 							LayerManager.clear();
-							resizeLayout(size.width, size.height);
+							Layout.resizeLayout(size.width, size.height);
 							var layer = LayerManager.addLayer('Layer 1');
 
 							Events.trigger(Events.RESET_UNDO);
@@ -463,7 +463,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 					}
 				}
 				else {
-
 					$$('.cerabox-content div.modal-message')[0].set('text', response.message);
 					$$('.cerabox-content div.uploadProgress')[0].setStyle('display', 'none');
 
@@ -473,7 +472,6 @@ define(['events', 'layout', 'layer-manager', 'undo', 'tools', 'upload', 'utils/i
 
 			loadImage: function() {
 				var id = this.get('id').split('-')[1] || null;
-
 				self.getInstance().load(id);
 			},
 

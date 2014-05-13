@@ -1,44 +1,58 @@
 define(['events', 'layer-manager'], function(Events, LayerManager) {
 
-	return new Class({
-		canvas:null,
-		context:null,
-		layer:null,
-		name:'',
+	function Tool() {
+		this.canvas = null;
+		this.context = null;
+		this.layer = null;
+		this.name = '';
+	}
 
-		initialize: function() {
-			this.canvasChanged();
-			Events.on(Events.CANVAS_CHANGED, this.canvasChanged.bind(this));
-		},
+	var ToolPrototype = Tool.prototype;
 
-		activate: function() {},
+	ToolPrototype.init = function() {
+		this.canvasChanged();
+		Events.on(Events.CANVAS_CHANGED, this.canvasChanged.bind(this));
+	};
 
-		deactivate: function() {
-			$('canvas-container').removeEvents();
-		},
+	ToolPrototype.activate = function() {
+	};
 
-		canvasChanged: function() {
-			this.layer = LayerManager.getActiveLayer();
-			this.canvas = this.layer.canvas;
-			this.context = this.canvas.getContext('2d');
-		},
+	ToolPrototype.deactivate = function() {
+		$('canvas-container').removeEvents();
+	};
 
-		getToolInfo: function() {
-			return '';
-		},
+	ToolPrototype.canvasChanged = function() {
+		this.layer = LayerManager.getActiveLayer();
+		this.canvas = this.layer.canvas;
+		this.context = this.canvas.getContext('2d');
+	};
 
-		getName: function() {
-			return this.name;
-		},
+	ToolPrototype.getToolInfo = function() {
+		return '';
+	};
 
-		mousemove: function(e) {},
-		mouseleave: function(e) {},
-		initToolInfo: function() {},
-		removeToolInfo: function() {},
-		refresh: function() {},
+	ToolPrototype.getName = function() {
+		return this.name;
+	};
 
-		pickerChanged: function(colour) {
-			this.fillRGB = colour.rgb;
-		}
-	});
+	ToolPrototype.mousemove = function(e) {
+	};
+
+	ToolPrototype.mouseleave = function(e) {
+	};
+
+	ToolPrototype.initToolInfo = function() {
+	};
+
+	ToolPrototype.removeToolInfo = function() {
+	};
+
+	ToolPrototype.refresh = function() {
+	};
+
+	ToolPrototype.pickerChanged = function(colour) {
+		this.fillRGB = colour.rgb;
+	};
+
+	return Tool;
 });

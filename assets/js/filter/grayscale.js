@@ -1,28 +1,35 @@
-define(['filter/base'], function(Filter) {
+define(['layer-manager', 'filter/base'], function(LayerManager, Filter) {
 
-	return new Class({
-		Extends: Filter,
+	function GrayscaleFilter() {
+		this.name = 'Grayscale';
+	}
 
-		name:'Grayscale',
+	GrayscaleFilter.prototype = Object.create(Filter.prototype);
+	GrayscaleFilter.prototype.constructor = GrayscaleFilter;
 
-		run: function() {
-			var pixels, i, index, colour;
-			var width = this.manager.width;
-			var height = this.manager.height;
+	GrayscaleFilter.prototype.init = function() {
+		Filter.prototype.init.call(this);
+	};
 
-			this.getPixels().each(function(context) {
-				pixels = context.getImageData(0, 0, width, height);
+	GrayscaleFilter.prototype.run = function() {
+		var pixels, index, colour;
+		var width = LayerManager.width;
+		var height = LayerManager.height;
 
-				for(i = 0; i < (pixels.data.length); i += 4) {
-					colour = (pixels.data[i] + pixels.data[i + 1] + pixels.data[i + 2]) / 3;
+		this.getPixels().each(function(context) {
+			pixels = context.getImageData(0, 0, width, height);
 
-					pixels.data[i] = colour;
-					pixels.data[i + 1] = colour;
-					pixels.data[i + 2] = colour;
-				}
+			for (var i = 0, l = pixels.data.length; i < l; i += 4) {
+				colour = (pixels.data[i] + pixels.data[i + 1] + pixels.data[i + 2]) / 3;
 
-				context.putImageData(pixels, 0, 0);
-			});
-		}
-	});
+				pixels.data[i] = colour;
+				pixels.data[i + 1] = colour;
+				pixels.data[i + 2] = colour;
+			}
+
+			context.putImageData(pixels, 0, 0);
+		});
+	};
+
+	return GrayscaleFilter;
 });
