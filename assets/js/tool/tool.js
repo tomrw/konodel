@@ -1,4 +1,5 @@
-define(['events', 'layer-manager'], function(Events, LayerManager) {
+define(['events', 'events/dom-event-listener', 'layer-manager'],
+	function(Events, DomEventListener, LayerManager) {
 
 	function Tool() {
 		this.canvas = null;
@@ -10,6 +11,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 	var ToolPrototype = Tool.prototype;
 
 	ToolPrototype.init = function() {
+		this.domListeners = new DomEventListener();
 		this.canvasChanged();
 		Events.on(Events.CANVAS_CHANGED, this.canvasChanged.bind(this));
 	};
@@ -18,6 +20,7 @@ define(['events', 'layer-manager'], function(Events, LayerManager) {
 	};
 
 	ToolPrototype.deactivate = function() {
+		this.domListeners.removeAllListeners();
 		$('canvas-container').removeEvents();
 	};
 

@@ -158,11 +158,10 @@ define(['events', 'layer-manager', 'tool/tool'],
 			}.bind(this)
 		});
 
-		this.timer_ref = this.resize.bind(this);
-		this.del_ref = this.deleteSelection.bind(this);
 		this.map_ref = this.mapDragged.bind(this);
-		window.addEvent('resize', this.timer_ref);
-		window.addEvent('keydown', this.del_ref);
+		this.domListeners.addListener(window, 'resize', this.resize.bind(this));
+		this.domListeners.addListener(window, 'keydown', this.deleteSelection.bind(this));
+
 		Events.on(Events.MAP_DRAGGED, this.map_ref);
 	};
 
@@ -176,8 +175,6 @@ define(['events', 'layer-manager', 'tool/tool'],
 
 		$('canvas-container').setStyle('cursor', 'none');
 
-		window.removeEvent('resize', this.timer_ref);
-		window.removeEvent('keydown', this.del_ref);
 		Events.off(Events.MAP_DRAGGED, this.map_ref);
 	};
 

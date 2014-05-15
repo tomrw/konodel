@@ -1,4 +1,4 @@
-define(['events'], function(Events) {
+define(['events', 'events/dom-event-listener'], function(Events, DomEventListener) {
 
 	function Layer(name, layerManager) {
 		this.name = name;
@@ -8,15 +8,16 @@ define(['events'], function(Events) {
 		this.hidden = false;
 		this.opacity = 1.0;
 		this.layerManager = layerManager;
+		this.domListeners = new DomEventListener();
 	}
 
 	Layer.prototype.init = function() {
 		var layerManager = this.layerManager;
-		var canvas = new Element('canvas', {'class': 'canvas', width: layerManager.width, height: layerManager.height});
+		var canvas = new Element('canvas', { class: 'canvas', width: layerManager.width, height: layerManager.height});
 		var li = new Element('li');
-		var li_text = new Element('div', { html: this.name, 'class': 'text' });
-		var li_hide = new Element('div', { 'class': 'hide layer-visible'});
-		var li_del = new Element('div', { 'class': 'delete'});
+		var li_text = new Element('div', { html: this.name, class: 'text' });
+		var li_hide = new Element('div', { class: 'hide layer-visible'});
+		var li_del = new Element('div', { class: 'delete'});
 		var container = $('layers-container');
 
 		canvas.width = layerManager.width;
@@ -28,15 +29,10 @@ define(['events'], function(Events) {
 		li.adopt(li_hide);
 		container.insertBefore(li, container.getFirst());
 
-		this.clickRef = this.clickEvent.bind(this);
-		this.delRef = this.deleteEvent.bind(this);
-		this.hideRef = this.hide.bind(this);
-		this.dblClickRef = this.dblClickEvent.bind(this);
-
-		li_text.addEvent('click', this.clickRef);
-		li_text.addEvent('dblclick', this.dblClickRef);
-		li_del.addEvent('click', this.delRef);
-		li_hide.addEvent('click', this.hideRef);
+		this.domListeners.addListener(li_text, 'click', this.clickEvent.bind(this));
+		this.domListeners.addListener(li_text, 'dblclick', this.dblClickEvent.bind(this));
+		this.domListeners.addListener(li_del, 'click', this.deleteEvent.bind(this));
+		this.domListeners.addListener(li_hide, 'click', this.hide.bind(this));
 		li.store('ref', this);
 
 		this.menu = li;
@@ -55,17 +51,7 @@ define(['events'], function(Events) {
 
 	Layer.prototype.remove = function() {
 		var manager = this.layerManager;
-
-		this.menu.getChildren('div.hide')[0].removeEvent('click', this.hideRef);
-		this.menu.getChildren('div.delete')[0].removeEvent('click', this.delRef);
-		this.menu.getChildren('div.text')[0].removeEvent('dblclick', this.dblClickRef);
-		this.menu.getChildren('div.text')[0].removeEvent('click', this.clickRef);
-
-		delete this.clickRef;
-		delete this.delRef;
-		delete this.hideRef;
-		delete this.dblClickRef;
-
+		this.domListeners.removeAllListeners();
 		this.canvas.getContext('2d').clearRect(0, 0, manager.width, manager.height);
 		this.canvas.width = this.canvas.height = 1;
 
@@ -115,23 +101,21 @@ define(['events'], function(Events) {
 		clearTimeout(this.clickTimer);
 
 		this.menu.getChildren('div.text')[0].innerHTML = '<input type="text" id="rename-layer" value="' + this.name + '" maxlength="30" />';
-		this.renameEventRef = this.renameEvent.bind(this);
 
 		var rename = $('rename-layer');
-
 		rename.focus();
-		rename.addEvent('keydown', this.renameEventRef);
+		this.domListeners.addListener(rename, 'keydown', this.renameEvent.bind(this));
 	};
 
 	Layer.prototype.renameEvent = function(e) {
 		var text = this.menu.getChildren('div.text')[0];
 		var rename = $('rename-layer');
 
-		if(e.code == 13) {
+		if(e.keyCode == 13) {
 			this.name = rename.value;
 			text.innerText = this.name;
 
-			rename.removeEvent('keydown', this.renameEventRef);
+			this.domListeners.removeElementListeners(rename);
 			rename.destroy();
 
 			Events.trigger(Events.SAVE_STATE);

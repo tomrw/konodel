@@ -48,7 +48,6 @@ define(['events', 'layer-manager', 'tool/tool'],
 				this.context.stroke();
 
 				this.context.globalCompositeOperation = orig;
-
 			}.bind(this),
 
 			mouseenter: function() {
@@ -56,17 +55,14 @@ define(['events', 'layer-manager', 'tool/tool'],
 			}.bind(this)
 		});
 
-		this.mouseup_ref = this.mouseup.bind(this);
-		$(window).addEvent('mouseup', this.mouseup_ref);
+		this.domListeners.addListener(window, 'mouseup', this.mouseup.bind(this));
 	};
 
 	Eraser.prototype.deactivate = function() {
 		Tool.prototype.deactivate.call(this);
-		$(window).removeEvent('mouseup', this.mouseup_ref);
 	};
 
 	Eraser.prototype.mousemove = function(e) {
-
 		if(!this.drawing) return;
 
 		var pos = this.canvas.getPosition();

@@ -41,17 +41,15 @@ define(['events', 'layout', 'layer-manager', 'tool/tool', '../../../lib/uvumicro
 		this.cropper.autoSize();
 		this.cropper.show();
 
-		this.timer_ref = this.resize.bind(this);
 		this.map_ref = this.mapDragged.bind(this);
-		window.addEvent('resize', this.timer_ref);
+		this.domListeners.addListener(window, 'resize', this.resize.bind(this));
+
 		Events.on(Events.MAP_DRAGGED, this.map_ref);
 	};
 
 	Crop.prototype.deactivate = function() {
 		$('canvas-container').setStyle('cursor', 'none');
 		this.cropper.hide();
-
-		window.removeEvent('resize', this.timer_ref);
 		Events.off(Events.MAP_DRAGGED, this.map_ref);
 	};
 
